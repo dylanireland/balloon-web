@@ -1,0 +1,8 @@
+body {
+  margin: 0;
+}
+
+#showoff {
+  min-height: 80vh;
+  background-color: #2D3436;
+}
