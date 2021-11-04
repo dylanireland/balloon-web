@@ -1,0 +1,43 @@
+#showoff {
+  width: 100%;
+  margin-top: 10%;
+}
+
+#nftView {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+#left {
+  width: 20%;
+}
+
+#mainImage {
+  width: 100%;
+}
+
+#right {
+  width: 20%;
+}
+
+#right button {
+  margin-left: 5%;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  font-weight: 500;
+  background-color: #354551;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 3%;
+  font-size: 1.5em;
+}
+
+#rightContent {
+  margin-left: 5%;
+}
+
+#rightContent h3 {
+  white-space: nowrap;
+}

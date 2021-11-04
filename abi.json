@@ -101,6 +101,97 @@
 				"type": "uint256"
 			}
 		],
+		"name": "findNFT",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "address",
+						"name": "lender",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "borrower",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "addy",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "tokenId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "valuation",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "desiredInterest",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "loanDuration",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "loanStartTime",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "collateralMultiplier",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bool",
+						"name": "isBeingBorrowed",
+						"type": "bool"
+					},
+					{
+						"internalType": "bool",
+						"name": "live",
+						"type": "bool"
+					},
+					{
+						"internalType": "bool",
+						"name": "shouldRelist",
+						"type": "bool"
+					},
+					{
+						"internalType": "uint256",
+						"name": "collateral",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct NFC.NFT",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "nftAddy",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
 		"name": "flipBorrowAbility",
 		"outputs": [],
 		"stateMutability": "nonpayable",

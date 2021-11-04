@@ -1,12 +1,74 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link rel="stylesheet" href="/assets/css/base.css">
   <link rel="stylesheet" href="/assets/css/index.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div id="showoff">
-
+  <div id="home">
+    <div id="navbar">
+      <a href="dapp" class="navitem">Launch dApp</a>
+    </div>
+    <div id="showoff">
+      <div>
+        <h1>Arsynic</h1>
+        <p>An online marketplace for lending, borrowing, and shorting NFTs!</p>
+      </div>
+      <div>
+      </div>
+    </div>
+    <div id="leanmoreContainer">
+      <button id="learnmore">Learn More</button>
+    </div>
+  </div>
+  <div id="about">
+    <h1>What can you do?</h1>
+    <div class="row">
+      <div class="col-4">
+        <img src="/assets/photos/lend.png">
+        <h2>Lend</h2>
+        <p>Arsynic makes it easy to earn passive returns on your NFTs. Simply deposit a floor-priced NFT of your choosing, specificy a few parameters, and earn interest on your NFTs! <a>Read More</a></p>
+      </div>
+      <div class="col-4">
+        <img src="/assets/photos/borrow.png">
+        <h2>Borrow</h2>
+        <p>Borrowing NFTs has never been easier. Just choose an NFT to borrow, post collateral, and do with it what you wish! <a>Read More</a></p>
+      </div>
+      <div class="col-4">
+        <img src="/assets/photos/short.png">
+        <h2>Short</h2>
+        <p>By borrowing, selling immediately, and buying back later, Arsynic allows you to effectively short NFTs. After taking a loan, you may return any NFT within that collection <a>Read More</a></p>
+      </div>
+    </div>
+  </div>
+  <div id="easyLending">
+    <h1>Lending</h1>
+    <div>
+      <div id="easyLeft">
+        <h1>Limited Risk,</h1>
+        <h1>Attractive Returns.</h1>
+        <p>Specify your NFT's valuation and a collateral multiplier to ensure borrowers are overcollateralized to your standards. If a borrower does not repay a loan, you will have the opportunity to seize all of his or her collateral after the loan's expiration date.</p>
+      </div>
+      <div id="easyRight">
+        <div class="nftElement">
+          <div class="grid-item">
+            <img class="nftImage" src="https://lh3.googleusercontent.com/0gdZ45HaU-bK930OyA9Lu5g5YpQ1Yady6vpd441zbjUBELN4hzI8FeIY99MItiVJXw1-l3o210uu67sTM9nkGiG8">
+          </div>
+          <div class="nftDescriptionContainer">
+            <div class="nftPriceContainer">
+              <img class="nftPriceETHLogo" src="/assets/photos/ethlogo.svg" alt="Ethereum Logo"/><h4 class="priceLabel">120</h4><h3 class="collateralLabel">@ 2x</h3><h4 class="nftTokenId">#6089</h4>
+            </div>
+            <div class="nftCollectionContainer">
+              <h4 class="nftCollectionName">CryptoPunks</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <script src="/assets/js/index.js"></script>
   <script>

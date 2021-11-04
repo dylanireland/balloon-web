@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/assets/css/borrowable.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="navbar">
+    <a href="/" class="navitem">Home</a>
+  </div>
+  <div id="showoff">
+    <div id="nftView">
+      <div id="left">
+        <img id="mainImage" src="<%= imageURI %>">
+      </div>
+      <div id="right">
+        <div id="rightContent">
+          <h3>Collection: <%= nft.addy %></h3>
+          <h3>Lender: <%= nft.lender %></h3>
+          <h3>Valuation (i): Ξ<%= nft.valuation * 10**-18 %></h3>
+          <h3>Collateral Requirement (i):	Ξ<%= nft.collateralMultiplier * nft.valuation * 10**-18 %></h3>
+          <h3>Interest (i): <%= nft.desiredInterest * 10**-2 %>%</h3>
+          <h3 id="loanDuration"></h3>
+        </div>
+        <button id="enableEthereumButton">Enable Ethereum</button>
+        <button id="borrowButton">Borrow</button>
+        <button id="withdrawButton">Withdraw</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    const contractAddress = "<%= contractAddress %>";
+    const lender = "<%= nft.lender %>";
+    const isBeingBorrowed = <%= nft.isBeingBorrowed %>;
+    const collateralRequirement = <%= nft.valuation * nft.collateralMultiplier %>;
+    const loanDuration = <%= nft.loanDuration %>;
+    const borrowData = "<%= borrowData %>";
+    const withdrawData = "<%= withdrawData %>";
+  </script>
+  <script src="/assets/js/borrowable.js"></script>
+</body>
+</html>

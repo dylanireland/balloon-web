@@ -1,8 +1,110 @@
-body {
-  margin: 0;
+#home {
+  min-height: 80vh;
+  background-color: #354551;
+  position: relative;
 }
 
 #showoff {
-  min-height: 80vh;
-  background-color: #2D3436;
+  display: flex;
+}
+
+#showoff > div {
+  padding-left: 10%;
+  padding-right: 10%;
+  max-width: 30%;
+}
+
+#showoff h1 {
+  font-size: 3em;
+}
+
+#showoff h1, #showoff p {
+  color: white
+}
+
+#leanmoreContainer {
+  display: flex;
+  justify-content: center;
+}
+
+#learnmore {
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  font-weight: 500;
+  font-size: 2em;
+  margin: auto;
+  text-align: center;
+  color: #354551;
+  position: absolute;
+  bottom: 0;
+  background-color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 5%;
+  cursor: pointer;
+}
+
+#about {
+  background-color: white;
+  width: 100%;
+}
+
+#about h1 {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+}
+
+.col-4 {
+  max-width: 20%;
+  margin-left: 4%;
+  margin-right: 4%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#about img {
+  width: 50%;
+}
+
+#about h2 {
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#easyLending > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+  margin-bottom: 100px;
+}
+
+#easyLending > h1 {
+  text-align: center;
+}
+
+#easyLending > div > div {
+  width: 30%;
+}
+
+.nftElement {
+  width: 14.4vw;
+  height: 18vw;
+  margin: auto;
+  cursor: default;
+}
+
+@media (max-aspect-ratio: 4/3) {
+  .nftElement {
+    width: 16vw;
+    height: 20vw;
+  }
 }
