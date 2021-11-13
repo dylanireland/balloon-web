@@ -30,3 +30,19 @@ function doScrolling(element, duration) {
     }
   })
 }
+
+//Tim T@https://stackoverflow.com/users/10499128/tim-t
+document.getElementById("body").onscroll = function paraScroll() {
+    var scrolltotop = document.scrollingElement.scrollTop;
+    var target = document.getElementById("background");
+    var xvalue = "center";
+    var factor = 0.5;
+    var yvalue = scrolltotop * factor;
+    target.style.backgroundPosition = xvalue + " " + yvalue + "px";
+}
+
+$('.js-tilt').tilt({
+	scale: 1,
+	glare: true,
+  maxGlare: 0.3
+});

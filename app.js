@@ -5,22 +5,21 @@ const Web3 = require('web3');
 const axios = require("axios");
 
 const app = express();
-const port = process.env.PORT || "8000";
+const port = process.env.PORT || "80";
 const web3 = new Web3(Web3.givenProvider || "https://rinkeby.infura.io/v3/79176195facd464d82f763a1dfea9acd");
 
 const abi = JSON.parse(fs.readFileSync('./abi.json'));
-const addy = "0x284aF22C4051654723bA88E7cFC045706AccB2d2";
+const addy = "0x78D4D0A12E5514F594661FCCc327a6C9cd1f1eEb";
 const Contract = new web3.eth.Contract(abi, addy);
 
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/static'));
 
 app.get("/dapp", async(req, res) => {
-
-  var allLiveNFTs = await getAllLiveNFTs();
-  var tokenURIs = await getNFTURIs(allLiveNFTs);
-  var images = await getNFTImageURIs(tokenURIs);
-  res.render('dapp', {liveNFTs: allLiveNFTs, tokenURIs: tokenURIs, imageURIs: images});
+  //var allLiveNFTs = await getAllLiveNFTs();
+  //var tokenURIs = await getNFTURIs(allLiveNFTs);
+  //var images = await getNFTImageURIs(tokenURIs);
+  res.render('dapp', {contractAddress: addy});
 });
 
 app.get("/", async(req, res) => {
@@ -28,11 +27,16 @@ app.get("/", async(req, res) => {
 });
 
 app.get("/borrowable/:address/:tokenId", async(req, res) => {
-  var nft = await findNFT(req.params.address, req.params.tokenId);
-  var borrowData = web3.eth.abi.encodeFunctionCall({name: 'borrow', type: 'function', inputs: [{type: 'address', name: 'lender'},{type: 'address', name: 'nftAddy'},{type: 'uint256', name: 'tokenId'}]}, [nft.lender, nft.addy, nft.tokenId]);
+  //var nft = await findNFT(req.params.address, req.params.tokenId);
+  //var borrowData = web3.eth.abi.encodeFunctionCall({name: 'borrow', type: 'function', inputs: [{type: 'address', name: 'lender'},{type: 'address', name: 'nftAddy'},{type: 'uint256', name: 'tokenId'}]}, [nft.lender, nft.addy, nft.tokenId]);
 
-  var withdrawData = web3.eth.abi.encodeFunctionCall({name: 'withdrawNFT', type: 'function', inputs: [{type: 'address', name: 'nftAddy'},{type: 'uint256', name: 'tokenId'}]}, [nft.addy, nft.tokenId]);
-  res.render('borrowable', {nft: nft, imageURI: await getNFTImageURI(await getNFTURI(nft)), contractAddress: addy, borrowData: borrowData, withdrawData: withdrawData});
+  //var withdrawData = web3.eth.abi.encodeFunctionCall({name: 'withdrawNFT', type: 'function', inputs: [{type: 'address', name: 'nftAddy'},{type: 'uint256', name: 'tokenId'}]}, [nft.addy, nft.tokenId]);
+  //res.render('borrowable', {nft: nft, imageURI: await getNFTImageURI(await getNFTURI(nft)), contractAddress: addy, borrowData: borrowData, withdrawData: withdrawData});
+  res.render('borrowable', {contractAddress: addy, nftAddress: req.params.address, tokenId: req.params.tokenId})
+});
+
+app.get("/profile/:address", async(req, res) => {
+  res.render('profile', {});
 });
 
 function makeNFT() {
@@ -76,43 +80,5 @@ async function getNFTURI(nft) {
   return tokenURI;
 }
 
-async function getNFTURIs(nfts) {
-  tokenURIs = [];
-  for (const nft of nfts) {
-    tokenURIs.push(await getNFTURI(nft));
-  }
-  return tokenURIs;
-}
-
-async function getNFTImageURI(uri) {
-  try {
-    let response = await axios.get(uri);
-    var result = response.data;
-    var imgURI = result.image;
-    return imgURI;
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-async function getNFTImageURIs(tokenURIs) {
-  var returnable = [];
-  for (const uri of tokenURIs) {
-    returnable.push(await getNFTImageURI(uri));
-  }
-  return returnable;
-}
-
-function findNFT(address, tokenId) {
-  return new Promise((resolve, reject) => {
-    Contract.methods.findNFT(address, tokenId).call().then((value) => {
-      var NFT = makeNFT();
-      var nft = new NFT(value[0], value[1], value[2], value[3], value[4], value[5], value[6], value[7], value[8], value[9], value[10], value[11], value[12]);
-      resolve(nft);
-    }).catch((error) => {
-      reject(error);
-    });
-  })
-}
 
 app.listen(port);

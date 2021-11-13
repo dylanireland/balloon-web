@@ -1,16 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <title>Balloon - Lend, Borrow, and Short NFTs</title>
   <link rel="stylesheet" href="/assets/css/base.css">
   <link rel="stylesheet" href="/assets/css/dapp.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.5.1/ethers.umd.js" integrity="sha512-83dP6P/Fmka9dR4PRvT3+FRd2cbMJpCOuSX6iMB3eAI9KHVHHYg0cX2dvgmW/Cs5hZif0qQ8r99JWa6EpGY0Aw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
+  <div id="metaModal">
+    <div>
+      <img src="/assets/photos/metamaskfox.svg">
+      <button id="enableEthereumButton">Enable Ethereum</button>
+    </div>
+  </div>
+
   <div id="navbar">
-    <a href="/" class="navitem">Home</a>
+    <img class="navLogo" src="/assets/photos/fulllogo.svg">
+    <img id="profileLink" src="/assets/photos/user.svg">
   </div>
   <div id="showoff">
     <div id="sidebar">
@@ -20,23 +30,23 @@
       </div>
     </div>
     <div id="borrowableGrid">
-      <% for (var i = 0; i < liveNFTs.length; i++) {%>
-        <div class="nftElement" data-address="<%= liveNFTs[i].addy %>" data-tokenId="<%= liveNFTs[i].tokenId %>">
-          <div class="grid-item">
-            <img class="nftImage" src="<%= imageURIs[i] %>">
+      <div class="nftElement">
+        <div class="grid-item">
+          <img class="nftImage">
+        </div>
+        <div class="nftDescriptionContainer">
+          <div class="nftPriceContainer">
+            <img class="nftPriceETHLogo" src="/assets/photos/ethlogo.svg" alt="Ethereum Logo"/><h4 class="priceLabel"></h4><h3 class="collateralLabel"></h3><h4 class="nftTokenId"></h4>
           </div>
-          <div class="nftDescriptionContainer">
-            <div class="nftPriceContainer">
-              <img class="nftPriceETHLogo" src="/assets/photos/ethlogo.svg" alt="Ethereum Logo"/><h4 class="priceLabel"><%= liveNFTs[i].valuation * 10**-18 %></h4><h3 class="collateralLabel">@ <%= liveNFTs[i].collateralMultiplier %>x</h3><h4 class="nftTokenId">#<%= liveNFTs[i].tokenId %></h4>
-            </div>
-            <div class="nftCollectionContainer">
-              <h4 class="nftCollectionName"><%= liveNFTs[i].addy %></h4>
-            </div>
+          <div class="nftCollectionContainer">
+            <h4 class="nftCollectionName"></h4>
           </div>
         </div>
-      <% } %>
+      </div>
     </div>
   </div>
+  <script>const contractAddress = "<%= contractAddress %>";</script>
+  <script src="/assets/js/contract-interaction.js"></script>
   <script src="/assets/js/dapp.js"></script>
 
 </body>

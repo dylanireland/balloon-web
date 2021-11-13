@@ -6,25 +6,27 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.5.1/ethers.umd.js" integrity="sha512-83dP6P/Fmka9dR4PRvT3+FRd2cbMJpCOuSX6iMB3eAI9KHVHHYg0cX2dvgmW/Cs5hZif0qQ8r99JWa6EpGY0Aw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
   <div id="navbar">
-    <a href="/" class="navitem">Home</a>
+    <img id="navAcc" src="/assets/photos/back.svg">
+    <img class="navLogo" src="/assets/photos/fulllogo.svg">
   </div>
   <div id="showoff">
     <div id="nftView">
       <div id="left">
-        <img id="mainImage" src="<%= imageURI %>">
+        <img id="mainImage">
       </div>
       <div id="right">
         <div id="rightContent">
-          <h3>Collection: <%= nft.addy %></h3>
-          <h3>Lender: <%= nft.lender %></h3>
-          <h3>Valuation (i): Ξ<%= nft.valuation * 10**-18 %></h3>
-          <h3>Collateral Requirement (i):	Ξ<%= nft.collateralMultiplier * nft.valuation * 10**-18 %></h3>
-          <h3>Interest (i): <%= nft.desiredInterest * 10**-2 %>%</h3>
-          <h3 id="loanDuration"></h3>
+          <h3 class="label">Collection: </h3>
+          <h3 class="label">Lender: </h3>
+          <h3 class="label">Valuation (i): </h3>
+          <h3 class="label">Collateral Requirement (i):	</h3>
+          <h3 class="label">Interest (i): %</h3>
+          <h3 class="label" id="loanDuration"></h3>
         </div>
         <button id="enableEthereumButton">Enable Ethereum</button>
         <button id="borrowButton">Borrow</button>
@@ -34,13 +36,11 @@
   </div>
   <script>
     const contractAddress = "<%= contractAddress %>";
-    const lender = "<%= nft.lender %>";
-    const isBeingBorrowed = <%= nft.isBeingBorrowed %>;
-    const collateralRequirement = <%= nft.valuation * nft.collateralMultiplier %>;
-    const loanDuration = <%= nft.loanDuration %>;
-    const borrowData = "<%= borrowData %>";
-    const withdrawData = "<%= withdrawData %>";
+    const nftAddress = "<%= nftAddress %>";
+    const tokenId = "<%= tokenId %>";
   </script>
+  <script src="/assets/js/contract-interaction.js"></script>
   <script src="/assets/js/borrowable.js"></script>
+
 </body>
 </html>
