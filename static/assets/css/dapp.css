@@ -1,3 +1,7 @@
+#navbar {
+  z-index: 5;
+}
+
 #header {
   text-align: center;
 }
@@ -36,13 +40,16 @@
   height: 100%;
   width: 100%;
   z-index: 2;
+  display: flex;
 }
 
 #sidebar {
   background-color: #DFE6E9;
   width: 20%;
-  height: 100%;
-  position: fixed;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  left: 0;
   z-index: 3;
 }
 
@@ -72,12 +79,35 @@
   transition: max-height 0.2s ease-out;
 }
 
+#innerInteractable {
+  width: 70%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin: auto;
+  margin-top: 0;
+}
+
 #borrowableGrid {
   display: grid;
-  grid-row-gap: 5%;
+  grid-row-gap: 5vh;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  margin-left: 25%;
-  width: 70%;
-  margin-right: 5%;
-  padding-top: 5%;
+  justify-items: center;
+  width: 100%;
+  margin-top: 5%;
+}
+
+#pageButtons {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 25px;
+  margin-bottom: 50px;
+  width: 100%;
+}
+
+#pageButtons img {
+  width: 30px;
+  margin-left: 10px;
+  margin-right: 10px;
 }

@@ -13,9 +13,21 @@ const balloonABI = [
   "function flipBorrowAbility(address nftAddy, uint256 tokenId) public",
   "function findNFTWithTypes(address nftAddy, uint256 tokenId) external view returns (address, address, address, uint256, uint256, uint256, uint256, uint256, uint256, bool, bool, bool, uint256)",
   "function getNFTAtIndex(uint256 index) public view returns (address, address, address, uint256, uint256, uint256, uint256, uint256, uint256, bool, bool, bool, uint256)",
-  "function updateName(string memory name) external",
-  "function updatePFP(address nftAddress, uint256 tokenId) external",
-  "function getAllNFTsLength() public view returns (uint256)"
+  "function updateName(string memory name) public",
+  "function updatePFP(address nftAddress, uint256 tokenId) public",
+  "function updateNameAndPFP(string memory name, address nftAddress, uint256 tokenId) public",
+  "function getAllNFTsLength() public view returns (uint256)",
+  "function getBorrowedNFTsLength() public view returns (uint256)",
+  "function getBorrowedNFTAtIndex(uint256 index) public view returns (address, address, address, uint256, uint256, uint256, uint256, uint256, uint256, bool, bool, bool, uint256)",
+  "function getLentNFTsLength() public view returns (uint256)",
+  "function getLentNFTAtIndex(uint256 index) public view returns (address, address, address, uint256, uint256, uint256, uint256, uint256, uint256, bool, bool, bool, uint256)",
+  "function getDepositedNFTsLength() public view returns (uint256)",
+  "function getDepositedNFTAtIndex(uint256 index) public view returns (address, address, address, uint256, uint256, uint256, uint256, uint256, uint256, bool, bool, bool, uint256)",
+  "function getLiveNFTsLength() public view returns (uint256)",
+  "function getLiveNFTAtIndex(uint256 index) public view returns (address, address, address, uint256, uint256, uint256, uint256, uint256, uint256, bool, bool, bool, uint256)",
+  "function getName(address user) public view returns (string memory)",
+  "function getPFP(address user) public view returns (address, uint256)",
+  "function getProfile(address user) public view returns (string memory, address, uint256)"
 ];
 
 const ERC721BaseABI = [
@@ -26,6 +38,22 @@ var balloonContract = new ethers.Contract(contractAddress, balloonABI, provider)
 
 async function getAllNFTsLength() {
   return await balloonContract.getAllNFTsLength();
+}
+
+async function getLiveNFTsLength() {
+  return await balloonContract.getAllNFTsLength();
+}
+
+async function getBorrowedNFTsLength() {
+  return await balloonContract.connect(provider.getSigner()).getBorrowedNFTsLength();
+}
+
+async function getLentNFTsLength() {
+  return await balloonContract.connect(provider.getSigner()).getLentNFTsLength();
+}
+
+async function getDepositedNFTsLength() {
+  return await balloonContract.connect(provider.getSigner()).getDepositedNFTsLength();
 }
 
 function getNFTURI(nft) {
@@ -65,6 +93,54 @@ function findNFTWithTypes(address, tokenId) {
 function getNFTAtIndex(index) {
   return new Promise((resolve, reject) => {
     balloonContract.getNFTAtIndex(index).then((value) => {
+      var NFT = makeNFT();
+      var nft = new NFT(value[0], value[1], value[2], value[3], value[4], value[5], value[6], value[7], value[8], value[9], value[10], value[11], value[12]);
+      resolve(nft);
+    }).catch((error) => {
+      reject(error);
+    });
+  })
+}
+
+function getLiveNFTAtIndex(index) {
+  return new Promise((resolve, reject) => {
+    balloonContract.connect(provider.getSigner()).getLiveNFTAtIndex(index).then((value) => {
+      var NFT = makeNFT();
+      var nft = new NFT(value[0], value[1], value[2], value[3], value[4], value[5], value[6], value[7], value[8], value[9], value[10], value[11], value[12]);
+      resolve(nft);
+    }).catch((error) => {
+      reject(error);
+    });
+  })
+}
+
+function getBorrowedNFTAtIndex(index) {
+  return new Promise((resolve, reject) => {
+    balloonContract.connect(provider.getSigner()).getBorrowedNFTAtIndex(index).then((value) => {
+      var NFT = makeNFT();
+      var nft = new NFT(value[0], value[1], value[2], value[3], value[4], value[5], value[6], value[7], value[8], value[9], value[10], value[11], value[12]);
+      resolve(nft);
+    }).catch((error) => {
+      reject(error);
+    });
+  })
+}
+
+function getLentNFTAtIndex(index) {
+  return new Promise((resolve, reject) => {
+    balloonContract.connect(provider.getSigner()).getLentNFTAtIndex(index).then((value) => {
+      var NFT = makeNFT();
+      var nft = new NFT(value[0], value[1], value[2], value[3], value[4], value[5], value[6], value[7], value[8], value[9], value[10], value[11], value[12]);
+      resolve(nft);
+    }).catch((error) => {
+      reject(error);
+    });
+  })
+}
+
+function getDepositedNFTAtIndex(index) {
+  return new Promise((resolve, reject) => {
+    balloonContract.connect(provider.getSigner()).getDepositedNFTAtIndex(index).then((value) => {
       var NFT = makeNFT();
       var nft = new NFT(value[0], value[1], value[2], value[3], value[4], value[5], value[6], value[7], value[8], value[9], value[10], value[11], value[12]);
       resolve(nft);

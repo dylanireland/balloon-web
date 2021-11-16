@@ -18,19 +18,27 @@
     <div id="nftView">
       <div id="left">
         <img id="mainImage">
+        <div id="buttons">
+          <button id="enableEthereumButton">Enable Ethereum</button>
+          <button id="borrowButton">Borrow</button>
+          <button id="withdrawButton">Withdraw</button>
+        </div>
       </div>
       <div id="right">
         <div id="rightContent">
-          <h3 class="label">Collection: </h3>
-          <h3 class="label">Lender: </h3>
-          <h3 class="label">Valuation (i): </h3>
-          <h3 class="label">Collateral Requirement (i):	</h3>
-          <h3 class="label">Interest (i): %</h3>
+          <p>Collection</p>
+          <h3 class="label"></h3>
+          <p>Lender</p>
+          <h3 class="label"></h3>
+          <p>Valuation</p>
+          <h3 class="label"></h3>
+          <p>Collateral Requirement</p>
+          <h3 class="label"></h3>
+          <p>Interest</p>
+          <h3 class="label">%</h3>
+          <p>Loan Duration</p>
           <h3 class="label" id="loanDuration"></h3>
         </div>
-        <button id="enableEthereumButton">Enable Ethereum</button>
-        <button id="borrowButton">Borrow</button>
-        <button id="withdrawButton">Withdraw</button>
       </div>
     </div>
   </div>
@@ -39,6 +47,7 @@
     const nftAddress = "<%= nftAddress %>";
     const tokenId = "<%= tokenId %>";
   </script>
+  <script src="/assets/js/base.js"></script>
   <script src="/assets/js/contract-interaction.js"></script>
   <script src="/assets/js/borrowable.js"></script>
 

@@ -29,23 +29,30 @@
         <p>Here's the dropdown shit!</p>
       </div>
     </div>
-    <div id="borrowableGrid">
-      <div class="nftElement">
-        <div class="grid-item">
-          <img class="nftImage">
-        </div>
-        <div class="nftDescriptionContainer">
-          <div class="nftPriceContainer">
-            <img class="nftPriceETHLogo" src="/assets/photos/ethlogo.svg" alt="Ethereum Logo"/><h4 class="priceLabel"></h4><h3 class="collateralLabel"></h3><h4 class="nftTokenId"></h4>
+    <div id="innerInteractable">
+      <div id="borrowableGrid">
+        <div class="nftElement">
+          <div class="grid-item">
+            <img class="nftImage">
           </div>
-          <div class="nftCollectionContainer">
-            <h4 class="nftCollectionName"></h4>
+          <div class="nftDescriptionContainer">
+            <div class="nftPriceContainer">
+              <img class="nftPriceETHLogo" src="/assets/photos/ethlogo.svg" alt="Ethereum Logo"/><h4 class="priceLabel"></h4><h3 class="collateralLabel"></h3><h4 class="nftTokenId"></h4>
+            </div>
+            <div class="nftCollectionContainer">
+              <h4 class="nftCollectionName"></h4>
+            </div>
           </div>
         </div>
+      </div>
+      <div id="pageButtons">
+        <a href="javascript:prevPage()"><img src="/assets/photos/back.svg"></a>
+        <a href="javascript:nextPage()"><img src="/assets/photos/forward.svg"></a>
       </div>
     </div>
   </div>
   <script>const contractAddress = "<%= contractAddress %>";</script>
+  <script src="/assets/js/base.js"></script>
   <script src="/assets/js/contract-interaction.js"></script>
   <script src="/assets/js/dapp.js"></script>
 

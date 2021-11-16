@@ -20,6 +20,12 @@ body, button, h1, p, h2, h3, h4, h5, h6 {
   cursor: pointer;
 }
 
+#navAcc {
+  height: 40%;
+  margin-left: 2%;
+  cursor: pointer;
+}
+
 .navitem {
   color: #354551;
   background-color: white;

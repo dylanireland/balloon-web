@@ -8,42 +8,87 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tilt.js/1.0.3/tilt.jquery.min.js" integrity="sha512-14AZ/DxUrlF26z6v7egDkpJHKyJRn/7ue2BgpWZ/fmqrqVzf4PrQnToy99sHmKwzKev/VZ1tjPxusuTV/n8CcQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://cdn.jsdelivr.net/npm/ethers@5.5.1/lib/index.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.5.1/ethers.umd.js" integrity="sha512-83dP6P/Fmka9dR4PRvT3+FRd2cbMJpCOuSX6iMB3eAI9KHVHHYg0cX2dvgmW/Cs5hZif0qQ8r99JWa6EpGY0Aw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body id="body">
+  <div id="modalWrapper">
+    <div id="metaModal">
+      <div>
+        <form action="javascript:;" onsubmit="handleProfileUpdate(this)">
+          <h3>Update Profile</h3>
+          <label>
+            <input id="nameField" type="text" name="name" placeholder="Account Name"></input>
+            <span>Account Name</span>
+          </label>
+          <p>Enter an NFT address and token ID to set your profile picture.</p>
+          <label>
+            <input id="addressField" type="text" name="address" placeholder="NFT Address"></input>
+            <span>NFT Address</span>
+          </label>
+          <label>
+            <input id="tokenIdField" type="text" name="tokenId" placeholder="Token ID"></input>
+            <span>Token ID</span>
+          </label>
+          <input type="submit" value="Update">
+        </form>
+        <!--<button id="enableEthereumButton">Enable Ethereum</button>-->
+      </div>
+    </div>
+  </div>
   <div id="home">
     <div id="navbar">
+      <img id="navAcc" src="/assets/photos/back.svg">
       <img class="navLogo" src="/assets/photos/fulllogo.svg">
     </div>
     <div id="showoff">
       <div id="profHolder">
         <img src="/assets/photos/usergray.svg">
+        <div id="editProfile"><img src="/assets/photos/edit.svg"></div>
       </div>
     </div>
     <div id="statii">
       <div class="actives">
         <h1>Active Borrows</h1>
-        <div class="nftGrid">
-          <div class="nftObject">
-            <img src="">
+        <div class="borrows">
+          <div class="borrowGrid">
+            <div class="nftObject">
+              <img class="nftImage">
+            </div>
           </div>
+          <a href="javascript:prevPage(1)" class="btn_prev"><img src="/assets/photos/back.svg"></a>
+          <a href="javascript:nextPage(1)" class="btn_next"><img src="/assets/photos/forward.svg"></a>
         </div>
       </div>
 
       <div class="actives">
         <h1>Active Loans</h1>
-        <div class="nftGrid">
+        <div class="loans">
+          <div class="loanGrid">
+            <div class="nftObject">
+              <img class="nftImage">
+            </div>
+          </div>
+          <a href="javascript:prevPage(2)" class="btn_prev"><img src="/assets/photos/back.svg"></a>
+          <a href="javascript:nextPage(2)" class="btn_next"><img src="/assets/photos/forward.svg"></a>
         </div>
       </div>
     </div>
-    <div class="actives deposits">
+    <div class="actives" id="depositContainer">
       <h1>Deposits</h1>
+      <div class="deposits">
+        <div class="depositGrid">
+          <div class="nftObject">
+            <img class="nftImage">
+          </div>
+        </div>
+        <a href="javascript:prevPage(0)" class="btn_prev"><img src="/assets/photos/back.svg"></a>
+        <a href="javascript:nextPage(0)" class="btn_next"><img src="/assets/photos/forward.svg"></a>
+      </div>
     </div>
   </div>
+  <script>const contractAddress = "<%= contractAddress %>";</script>
+  <script src="/assets/js/base.js"></script>
+  <script src="/assets/js/contract-interaction.js"></script>
   <script src="/assets/js/profile.js"></script>
-  <script>
-
-  </script>
 </body>
 </html>

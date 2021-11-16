@@ -1,7 +1,6 @@
 const enableEthereumButton = document.getElementById("enableEthereumButton");
 const borrowButton = document.getElementById("borrowButton");
 const withdrawButton = document.getElementById("withdrawButton");
-const backButton = document.getElementById("navAcc");
 
 enableEthereumButton.style.display = "none";
 borrowButton.style.display = "none";
@@ -17,10 +16,6 @@ borrowButton.addEventListener('click', () => {
 
 withdrawButton.addEventListener('click', () => {
   sendWithdraw();
-});
-
-backButton.addEventListener('click', () => {
-  window.location.href = "/dapp";
 });
 
 let accounts = [];
@@ -43,8 +38,8 @@ async function loadInfo() {
   var metadata = await getNFTMetadata(uri);
   document.getElementById("mainImage").src = metadata.image;
   var h3s = document.getElementsByClassName("label");
-  h3s[0].innerHTML = h3s[0].innerHTML + nft.addy;
-  h3s[1].innerHTML = h3s[1].innerHTML + nft.lender;
+  h3s[0].innerHTML = h3s[0].innerHTML + truncate(nft.addy, 12);
+  h3s[1].innerHTML = h3s[1].innerHTML + truncate(nft.lender, 12);
   h3s[2].innerHTML = h3s[2].innerHTML + (nft.valuation * 10**-18).toString();
   h3s[3].innerHTML = h3s[3].innerHTML + (nft.collateralMultiplier * nft.valuation * 10**-18).toString();
   h3s[4].innerHTML = h3s[4].innerHTML + (nft.desiredInterest * 10**-2).toString();
