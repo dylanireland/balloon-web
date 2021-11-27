@@ -16,3 +16,7 @@ if (!!backButton) {
 function truncate(str, n) {
   return (str.length > n) ? str.substr(0, n-1) + "..." : str;
 };
+
+function truncaddy(str, n) {
+  return (str.length > n) ? str.substr(0, n-1) + "..." + str.substr(str.length - n + 2, str.length) : str;
+};

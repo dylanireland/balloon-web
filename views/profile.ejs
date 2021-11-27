@@ -35,6 +35,45 @@
       </div>
     </div>
   </div>
+  <div id="depositModalWrapper">
+    <div id="depositModal">
+      <div>
+        <img id="depositPreview" src="/assets/photos/unchosen.svg">
+      </div>
+      <div>
+        <form action="javascript:;" onsubmit="deposit()">
+          <h3>Deposit NFT</h3>
+          <label>
+            <input id="deposit_nft_address" type="text" name="address" placeholder="NFT Address" onchange="tryToObtainNFTPhoto()"></input>
+            <span>NFT Address</span>
+          </label>
+          <label>
+            <input id="deposit_tokenId" type="text" name="tokenId" placeholder="Token ID" onchange=tryToObtainNFTPhoto()></input>
+            <span>Token ID</span>
+          </label>
+          <label>
+            <input id="deposit_valuation" type="text" name="valuation" placeholder="Valuation"></input>
+            <span>Valuation</span>
+          </label>
+          <label>
+            <input id="deposit_interest" type="text" name="interest" placeholder="Interest Rate"></input>
+            <span>Interest Rate</span>
+          </label>
+          <label>
+            <input id="deposit_duration" type="text" name="duration" placeholder="Loan Duration"></input>
+            <span>Loan Duration</span>
+          </label>
+          <label>
+            <input id="deposit_collateral_multiplier" type="text" name="multiplier" placeholder="Collateral Multiplier"></input>
+            <span>Collateral Multiplier</span>
+          </label>
+          <span><p>Borrowable Upon Deposit</p><input id="deposit_start_live" type="checkbox" name="startLive" placeholder="Borrowable Upon Deposit"></input></span>
+          <span><p>Relist Upon Loan Reimbursement</p><input id="deposit_should_relist" type="checkbox" name="shouldRelist" placeholder="Relist Upon Loan Reimbursement"></input></span>
+          <input id="depositSubmit" type="submit" value="Loading...">
+        </form>
+      </div>
+    </div>
+  </div>
   <div id="home">
     <div id="navbar">
       <img id="navAcc" src="/assets/photos/back.svg">
@@ -42,9 +81,10 @@
     </div>
     <div id="showoff">
       <div id="profHolder">
-        <img src="/assets/photos/usergray.svg">
+        <img id="pfp" src="/assets/photos/usergray.svg">
         <div id="editProfile"><img src="/assets/photos/edit.svg"></div>
       </div>
+      <h2 id="profileName"></h2>
     </div>
     <div id="statii">
       <div class="actives">
@@ -74,7 +114,10 @@
       </div>
     </div>
     <div class="actives" id="depositContainer">
-      <h1>Deposits</h1>
+      <div id="depositHeaderContainer">
+        <h1>Deposits</h1>
+        <button id="depositButton">Deposit NFT</button>
+      </div>
       <div class="deposits">
         <div class="depositGrid">
           <div class="nftObject">

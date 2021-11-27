@@ -1,3 +1,6 @@
+var depositButton = document.getElementById("depositButton");
+let depositSubmit = document.getElementById("depositSubmit");
+
 var redirectToBorrowable = function(address, tokenId) {
     const uri = "/borrowable/" + address + "/" + tokenId;
     window.location.href = uri;
@@ -284,14 +287,22 @@ function nextPage(which) {
 }
 
 var modalWrapper = document.getElementById("modalWrapper");
+var depositModalWrapper = document.getElementById("depositModalWrapper");
 
 document.getElementById("editProfile").onclick = function () {
   modalWrapper.style.display = "block";
 }
 
+document.getElementById("depositButton").onclick = function () {
+  depositSubmit.style.display = "none";
+  depositModalWrapper.style.display = "block";
+}
+
 window.onclick = function(event) {
   if (event.target == modalWrapper) {
     modalWrapper.style.display = "none";
+  } else if (event.target == depositModalWrapper) {
+    depositModalWrapper.style.display = "none";
   }
 }
 
@@ -332,10 +343,111 @@ async function handleProfileUpdate(form) {
     //This will only call if one of the two PFP fields is empty, but not both
     return;
   }
-
-
-  console.log(nameField.value == "");
 }
+
+async function getAccount() {
+  accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+  loadProfile(accounts[0]);
+}
+
+
+async function loadProfile(address) {
+  let pfp = document.getElementById("pfp");
+  let profileName = document.getElementById("profileName");
+  let profile = await balloonContract.getProfile(address);
+  if (profile[1] != "0x0000000000000000000000000000000000000000") {
+    let pfpURI = await getPFPURI(profile[1], profile[2]);
+    let metadata = await getNFTMetadata(pfpURI);
+    pfp.src = metadata.image;
+  }
+  if (profile[0] != "") {
+    profileName.innerHTML = profile[0];
+  } else {
+    profileName.innerHTML = truncaddy(address, 7);
+  }
+}
+
+/* DEPOSITS */
+
+async function tryToObtainNFTPhoto(value) {
+  const addressValue = document.getElementById("deposit_nft_address").value;
+  const tokenIdValue = document.getElementById("deposit_tokenId").value;
+  let depositPreview = document.getElementById("depositPreview");
+  if (addressValue != "" && tokenIdValue != "") {
+    checkApproval(addressValue);
+    getPFPURI(addressValue, tokenIdValue).then((uri) => {
+      getNFTMetadata(uri).then((metadata) => {
+        depositPreview.src = metadata.image;
+      }).catch((e) => {
+        depositPreview.src = "/assets/photos/unchosen.svg";
+        console.log(e);
+      });
+    }).catch((e) => {
+      depositPreview.src = "/assets/photos/unchosen.svg";
+      console.log(e);
+    })
+  } else {
+    depositPreview.src = "/assets/photos/unchosen.svg";
+  }
+}
+
+function prepareForDeposit() {
+
+}
+
+async function checkApproval(address) {
+  depositSubmit.style.display = "block";
+  if (accounts.length == 0) {
+    depositSubmit.value = "Not Connected";
+    return;
+  }
+
+  isApprovedForAll(address, accounts[0], contractAddress).then((isApproved) => {
+    if (isApproved) {
+      depositSubmit.value = "Deposit";
+    } else if (!isApproved) {
+      depositSubmit.value = "Approve";
+    }
+  }).catch((e) => {
+    depositSubmit.value = "Error Checking Approval";
+  })
+
+}
+
+async function deposit() {
+  var addressValue = document.getElementById("deposit_nft_address").value;
+  var tokenIdValue = document.getElementById("deposit_tokenId").value;
+  var valuationValue = document.getElementById("deposit_valuation").value;
+  var interestValue = document.getElementById("deposit_interest").value;
+  var durationValue = document.getElementById("deposit_duration").value;
+  var multiplierValue = document.getElementById("deposit_collateral_multiplier").value;
+  var startLiveValue = document.getElementById("deposit_start_live").value;
+  var shouldRelistValue = document.getElementById("deposit_should_relist").value;
+
+  if (accounts.length == 0) {
+    alert("You are not connected to Ethereum");
+    return;
+  }
+
+  if (depositSubmit.value == "Approve") {
+    try {
+      //Animate loader
+      await setApprovalForAll();
+      depositSubmit.value = "Deposit";
+    } catch(error) {
+      alert(error);
+    }
+  } else if (depositSubmit.value == "Deposit" && addressValue != "" && tokenIdValue != "" && valuationValue != "" && interestValue != "" && durationValue != "" && multiplierValue != "") {
+    try {
+      //Animate loader
+      let tx = await balloonContract.connect(provider.getSigner()).depositNFT(addressValue, tokenIdValue, valuationValue, interestValue, durationValue, multiplierValue, startLiveValue, shouldRelistValue);
+    } catch(error) {
+      alert(error);
+    }
+  }
+}
+
+getAccount();
 
 makeDeposits();
 makeBorrows();

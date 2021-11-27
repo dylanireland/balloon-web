@@ -5,7 +5,7 @@ const balloonABI = [
   "function withdrawNFT(address nftAddy, uint256 tokenId) external",
   "function onERC721Received(address operator, address from, uint256 tokenId, bytes data) external returns (bytes4)",
   "function getAllNFTs() public view returns (NFT[])",
-  "function findNFT(address nftAddy, uint256 tokenId) external view returns (NFT)",
+  "function findNFT(address nftAddy, uint256 tokenId) public view returns (NFT)",
   "function borrow(address lender, address nftAddy, uint256 tokenId) external payable",
   "function reimburseNFT(address nftAddy, uint256 tokenId, uint256 forTokenId) external",
   "function liquidate(address nftAddy, uint256 tokenId) external",
@@ -27,11 +27,15 @@ const balloonABI = [
   "function getLiveNFTAtIndex(uint256 index) public view returns (address, address, address, uint256, uint256, uint256, uint256, uint256, uint256, bool, bool, bool, uint256)",
   "function getName(address user) public view returns (string memory)",
   "function getPFP(address user) public view returns (address, uint256)",
-  "function getProfile(address user) public view returns (string memory, address, uint256)"
+  "function getProfile(address user) public view returns (string memory, address, uint256)",
+  "function isLiquidatable(address nftAddy, uint256 tokenId) public view returns (bool)",
+  "function isNFTLive(address nftAddy, uint256 tokenId) public view returns (bool)"
 ];
 
 const ERC721BaseABI = [
-  "function tokenURI(uint256 _tokenId) public view returns (string)"
+  "function tokenURI(uint256 _tokenId) public view returns (string)",
+  "function isApprovedForAll(address owner, address operator) external view returns (bool)",
+  "function setApprovalForAll(address operator, bool _approved) external"
 ];
 
 var balloonContract = new ethers.Contract(contractAddress, balloonABI, provider);
@@ -41,7 +45,7 @@ async function getAllNFTsLength() {
 }
 
 async function getLiveNFTsLength() {
-  return await balloonContract.getAllNFTsLength();
+  return await balloonContract.getLiveNFTsLength();
 }
 
 async function getBorrowedNFTsLength() {
@@ -56,6 +60,14 @@ async function getDepositedNFTsLength() {
   return await balloonContract.connect(provider.getSigner()).getDepositedNFTsLength();
 }
 
+async function isLive() {
+  return await balloonContract.isNFTLive(nftAddress, tokenId);
+}
+
+async function isLiquidatable() {
+  return await balloonContract.isLiquidatable(nftAddress, tokenId);
+}
+
 function getNFTURI(nft) {
   return new Promise((resolve, reject) => {
     var erc721Base = new ethers.Contract(nft.addy, ERC721BaseABI, provider);
@@ -67,15 +79,53 @@ function getNFTURI(nft) {
   });
 }
 
+function getPFPURI(address, tokenId) {
+  return new Promise((resolve, reject) => {
+    var erc721Base = new ethers.Contract(address, ERC721BaseABI, provider);
+    erc721Base.tokenURI(tokenId).then((tokenURI) => {
+      resolve(tokenURI);
+    }).catch((error) => {
+      reject(error);
+    });
+  });
+}
+
 async function getNFTMetadata(uri) {
   return new Promise((resolve, reject) => {
     fetch("http://balloon.dylanireland.com:8080/" + uri, {method: "GET", redirect: "follow"}).then(response => response.json()).then(data => {
+      if (data.image.includes("ipfs://")) {
+        data.image = data.image.replace("ipfs://", "https://ipfs.io/ipfs/");
+      }
       resolve(data);
     }).catch((error) => {
       alert(error);
       resolve(error);
     });
   });
+}
+
+async function isApprovedForAll(address, owner, operator) {
+  return new Promise((resolve, reject) => {
+    var erc721Base = new ethers.Contract(address, ERC721BaseABI, provider);
+    erc721Base.isApprovedForAll(owner, operator).then((isApproved) => {
+      resolve(isApproved);
+    }).catch((error) => {
+      reject(error);
+    });
+  });
+}
+
+async function setApprovalForAll(nft) {
+  return new Promise(async(resolve, reject) => {
+    var erc721Base = new ethers.Contract(nft.addy, ERC721BaseABI, provider);
+    let tx = await erc721Base.connect(provider.getSigner()).setApprovalForAll(contractAddress, true);
+    tx.wait().then(() => {
+      resolve();
+    }).catch((e) => {
+      reject(e);
+    });
+  });
+
 }
 
 function findNFTWithTypes(address, tokenId) {

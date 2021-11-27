@@ -75,6 +75,10 @@ async function layout(perPage, page) {
   let length = (await getLiveNFTsLength()).toNumber();
   if (length == 0) {
     nftElement.style.display = "none";
+    let noNFTsNotifier = document.createElement("h1");
+    noNFTsNotifier.innerHTML = "There are no NFTs available to borrow";
+    borrowableGrid.style.gridTemplateColumns = "1fr";
+    borrowableGrid.appendChild(noNFTsNotifier);
     console.log("No nfts");
     //tell em there's no NFTs!
     return;
@@ -82,6 +86,9 @@ async function layout(perPage, page) {
 
   if (gpages == 0) {
     gpages = Math.ceil(length / perPage); //Set total pages
+    if (gpages <= 1) {
+      document.getElementById("pageButtons").style.display = "none";
+    }
   }
 
   if (length > perPage * (page + 1)) {
@@ -156,5 +163,12 @@ function nextPage() {
     layout(gperPage, 0);
   }
 }
+async function checkChain() {
+  const { chainId } = await provider.getNetwork();
+  if (chainId != 4) {
+    alert("You must be connected to the Rinkeby network to use Balloon");
+  }
+}
 
+checkChain();
 layout(gperPage, gpage);

@@ -57,6 +57,10 @@
   width: 100%;
 }
 
+#withdrawButton {
+  margin-bottom: 10px;
+}
+
 
 #rightContent {
 }
