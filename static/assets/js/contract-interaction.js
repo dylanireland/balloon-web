@@ -1,7 +1,11 @@
-var provider = new ethers.providers.Web3Provider(window.ethereum);
+var provider;
+
+if (window.ethereum != null) {
+  provider = new ethers.providers.Web3Provider(window.ethereum);
+}
 
 const balloonABI = [
-  "function depositNFT(IERC721 nft, uint256 tokenId, uint256 valuation, uint256 desiredInterest, uint256 loanDuration, uint256 collateralMultiplier, bool startLive, bool shouldRelist) public",
+  "function depositNFT(address nft, uint256 tokenId, uint256 valuation, uint256 desiredInterest, uint256 loanDuration, uint256 collateralMultiplier, bool startLive, bool shouldRelist) public",
   "function withdrawNFT(address nftAddy, uint256 tokenId) external",
   "function onERC721Received(address operator, address from, uint256 tokenId, bytes data) external returns (bytes4)",
   "function getAllNFTs() public view returns (NFT[])",
@@ -92,7 +96,7 @@ function getPFPURI(address, tokenId) {
 
 async function getNFTMetadata(uri) {
   return new Promise((resolve, reject) => {
-    fetch("http://balloon.dylanireland.com:8080/" + uri, {method: "GET", redirect: "follow"}).then(response => response.json()).then(data => {
+    fetch("https://balloonprotocol.com:8080/" + uri, {method: "GET", redirect: "follow"}).then(response => response.json()).then(data => {
       if (data.image.includes("ipfs://")) {
         data.image = data.image.replace("ipfs://", "https://ipfs.io/ipfs/");
       }
@@ -115,9 +119,9 @@ async function isApprovedForAll(address, owner, operator) {
   });
 }
 
-async function setApprovalForAll(nft) {
+async function setApprovalForAll(address) {
   return new Promise(async(resolve, reject) => {
-    var erc721Base = new ethers.Contract(nft.addy, ERC721BaseABI, provider);
+    var erc721Base = new ethers.Contract(address, ERC721BaseABI, provider);
     let tx = await erc721Base.connect(provider.getSigner()).setApprovalForAll(contractAddress, true);
     tx.wait().then(() => {
       resolve();

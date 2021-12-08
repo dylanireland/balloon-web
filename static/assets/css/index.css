@@ -1,3 +1,5 @@
+/* SHOWOFF */
+
 #home {
   min-height: 80vh;
   background-color: white;
@@ -52,6 +54,8 @@
   margin-bottom: 5%;
   cursor: pointer;
 }
+
+/* WHAT CAN YOU DO? */
 
 #about {
   background-color: white;
@@ -108,6 +112,8 @@
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
+/* TOPICS */
 
 .easyTopic {
   border: solid 1px rgba(0, 0, 0, 0.1);
@@ -185,9 +191,190 @@
   margin-left: 0;
 }
 
-@media (max-aspect-ratio: 4/3) {
-  .nftElement {
-    width: 16vw;
-    height: 20vw;
+/* FOOTER */
+
+#footer {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  background-color: #EEE;
+  align-items: center;
+}
+
+#footer > p {
+  margin-left: 2%;
+}
+
+#footer .links {
+  margin-right: 2%;
+}
+
+#footer .links img {
+  width: 20px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+/* MOBILE */
+
+@media (max-aspect-ratio: 10/16) {
+
+  /* SHOWOFF */
+
+  #showoff #background {
+    background-image: url("../photos/bg-mobile.svg");
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
   }
+
+  #showoff .content h1 {
+    padding-top: 20%;
+    text-align: center;
+    margin-left: 12%;
+    margin-right: 12%;
+    font-size: 2.5rem;
+  }
+
+  #learnmore {
+    font-size: 3em;
+    bottom: 0;
+    padding: 20px;
+    margin-bottom: 5%;
+  }
+
+  /* WHAT CAN YOU DO? */
+
+  #about > h1 {
+    font-size: 3.5rem;
+  }
+
+  .row {
+    flex-direction: column;
+    justify-content: normal;
+    align-items: center;
+  }
+
+  .col-4 {
+    max-width: 80%;
+    margin: 0;
+    flex-direction: row;
+  }
+
+  .col-4 .inner {
+    display: flex;
+  }
+
+  #about .aboutTextHolder {
+    margin-left: 15px;
+  }
+
+  #about .aboutTextHolder h2 {
+    text-align: left;
+    font-size: 32px;
+  }
+
+  #about .aboutTextHolder p {
+    font-size: 18px;
+  }
+
+  .col-4:not(:last-child) {
+    margin-bottom: 30px;
+  }
+
+  #about .imgContainer {
+    margin: 0;
+    height: 12vh;
+    width: auto;
+  }
+
+  #about img {
+    height: 100%;
+    width: auto;
+  }
+
+  /* TOPICS */
+
+  .easyTopic {
+    max-width: 72%;
+  }
+
+  .easyTopic > div {
+    flex-direction: column;
+    margin-bottom: 5%;
+  }
+
+  .easyTopic > div p {
+    font-size: 1.5em;
+  }
+
+  #easyLending > div > div {
+    width: 90%;
+  }
+
+  #easyLending p {
+    font-size: 1.3em;
+  }
+
+  #floatingETHContainer {
+    width: 60%;
+  }
+
+  #easyLending .easyLeft h1:nth-child(2) {
+    padding-bottom: 10px;
+  }
+
+  #easyBorrowing > div > div {
+    width: 90%;
+  }
+
+  #easyBorrowing .nftElement {
+    margin: auto;
+    width: 40vw;
+    height: 50vw;
+    margin-bottom: 20px;
+  }
+
+  #easyBorrowing .easyRight h1 {
+    padding-bottom: 10px;
+  }
+
+  .nftPriceContainer {
+
+  }
+
+  .nftPriceETHLogo {
+    height: 65%;
+  }
+
+  .nftPriceContainer > .priceLabel, .nftPriceContainer > h4 {
+    font-size: 1.5em;
+  }
+
+  .nftPriceContainer > .collateralLabel {
+    font-size: 1em;
+  }
+
+  .nftCollectionName {
+    font-size: 1em;
+  }
+
+  /* FOOTER */
+
+  #footer {
+    height: 6vh;
+  }
+
+  #footer > p {
+    font-size: 200%;
+  }
+
+  #footer .links img {
+    width: 45px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
 }

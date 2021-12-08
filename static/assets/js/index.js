@@ -30,19 +30,29 @@ function doScrolling(element, duration) {
     }
   })
 }
+if ((window.innerWidth / window.innerHeight) > 0.625) { //Is not on mobile, > 10 / 16
+  //Tim T@https://stackoverflow.com/users/10499128/tim-t
+  document.getElementById("body").onscroll = function paraScroll() {
+      var scrolltotop = document.scrollingElement.scrollTop;
+      var target = document.getElementById("background");
+      var xvalue = "center";
+      var factor = 0.5;
+      var yvalue = scrolltotop * factor;
+      target.style.backgroundPosition = xvalue + " " + yvalue + "px";
+  }
 
-//Tim T@https://stackoverflow.com/users/10499128/tim-t
-document.getElementById("body").onscroll = function paraScroll() {
-    var scrolltotop = document.scrollingElement.scrollTop;
-    var target = document.getElementById("background");
-    var xvalue = "center";
-    var factor = 0.5;
-    var yvalue = scrolltotop * factor;
-    target.style.backgroundPosition = xvalue + " " + yvalue + "px";
+  $('.js-tilt').tilt({
+  	scale: 1,
+  	glare: true,
+    maxGlare: 0.3
+  });
+} else {
+  const easyLending = document.getElementById("easyLending");
+  const easyLeft = easyLending.getElementsByClassName("easyLeft")[0];
+  const easyLeftClone = easyLeft.cloneNode(true);
+  easyLeft.parentNode.appendChild(easyLeftClone);
+  easyLeft.remove();
 }
 
-$('.js-tilt').tilt({
-	scale: 1,
-	glare: true,
-  maxGlare: 0.3
-});
+document.getElementById("linkEtherscanLink").onclick = function() { window.open("https://rinkeby.etherscan.io/address/" + contractAddress, '_blank'); };
+document.getElementById("linkTwitterLink").onclick = function() { window.open("https://twitter.com/BalloonProtocol", '_blank'); };

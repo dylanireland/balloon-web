@@ -2,7 +2,7 @@ var depositButton = document.getElementById("depositButton");
 let depositSubmit = document.getElementById("depositSubmit");
 
 var redirectToBorrowable = function(address, tokenId) {
-    const uri = "/borrowable/" + address + "/" + tokenId;
+    const uri = "/nft/" + address + "/" + tokenId;
     window.location.href = uri;
 };
 
@@ -432,7 +432,7 @@ async function deposit() {
   if (depositSubmit.value == "Approve") {
     try {
       //Animate loader
-      await setApprovalForAll();
+      await setApprovalForAll(addressValue);
       depositSubmit.value = "Deposit";
     } catch(error) {
       alert(error);

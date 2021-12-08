@@ -1,10 +1,20 @@
+/* NAVBAR */
+
 #navbar {
   z-index: 5;
+}
+
+#profileLink {
+  height: 50%;
+  margin-right: 2%;
+  cursor: pointer;
 }
 
 #header {
   text-align: center;
 }
+
+/* MODALS */
 
 #metaModal {
   display: none;
@@ -30,11 +40,7 @@
   width: 40%;
 }
 
-#profileLink {
-  height: 50%;
-  margin-right: 2%;
-  cursor: pointer;
-}
+/* SHOWOFF */
 
 #showoff {
   height: 100%;
@@ -42,6 +48,8 @@
   z-index: 2;
   display: flex;
 }
+
+/* SIDEBAR */
 
 #sidebar {
   background-color: #DFE6E9;
@@ -79,6 +87,8 @@
   transition: max-height 0.2s ease-out;
 }
 
+/* NFT GRID */
+
 #innerInteractable {
   width: 70%;
   display: flex;
@@ -97,6 +107,19 @@
   margin-top: 5%;
 }
 
+.loaderWrapper {
+  height: 16vw;
+  width: 12.8vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loaderWrapper > .loader {
+  width: 100px;
+  height: 100px;
+}
+
 #pageButtons {
   display: flex;
   align-items: center;
@@ -110,4 +133,30 @@
   width: 30px;
   margin-left: 10px;
   margin-right: 10px;
+}
+
+/* NFT GRID > PROVIDER ERROR NOTIFIERS */
+
+.providerErrorConnectButton {
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  color: white;
+  background-color: #db0a5b;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.providerErrorWrapper {
+  margin-top: 20px;
+}
+
+.providerErrorMessage {
+  display: inline;
+}
+
+.providerErrorLink {
+  text-decoration: none;
+  color: #db0a5b;
+  margin-left: 5px;
 }

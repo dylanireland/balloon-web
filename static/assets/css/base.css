@@ -14,9 +14,13 @@ body, button, h1, p, h2, h3, h4, h5, h6 {
   z-index: 10;
 }
 
+.navLinks {
+  margin-right: 1.5%;
+}
+
 .navLogo {
   height: 50%;
-  margin-left: 2%;
+  margin-left: 1.5%;
   cursor: pointer;
 }
 
@@ -32,8 +36,6 @@ body, button, h1, p, h2, h3, h4, h5, h6 {
   border-radius: 5px;
   padding: 15px;
   text-decoration: none;
-  margin-left: 10px;
-  margin-right: 10px;
 }
 
 .navstar {
@@ -116,5 +118,32 @@ body, button, h1, p, h2, h3, h4, h5, h6 {
   .nftElement {
     width: 16vw;
     height: 20vw;
+  }
+}
+
+@media (max-aspect-ratio: 10/16) {
+  #navbar {
+    height: 7vh;
+  }
+
+  .navLinks {
+    margin-right: 3%;
+  }
+
+  .navLogo {
+    height: 60%;
+    margin-left: 3%;
+    cursor: pointer;
+  }
+
+  #navAcc {
+  }
+
+  .navitem {
+    margin: 0;
+  }
+
+  .navstar {
+    font-size: 200%;
   }
 }

@@ -69,3 +69,168 @@
   white-space: nowrap;
   margin-bottom: 10px;
 }
+
+/* REIMBURSEMENT MODAL */
+
+#reimbursementModalWrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  z-index: 99;
+}
+
+#reimbursementModal {
+  align-items: center;
+  position: fixed;
+  z-index: 20;
+  left: 25%;
+  top: 32.5%;
+  background-color: white;
+  border-radius: 15px;
+  width: 50%;
+  box-shadow: 0 3px 47px rgba(0,0,0,0.15);
+  justify-content: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  display: flex;
+  align-items: flex-start;
+}
+
+#reimbursementModal > div {
+  width: 50%;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+#reimbursementModal img {
+  width: 100%;
+  border-radius: 15px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+form h3 {
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+
+form p {
+  color: #db0a5b;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+form label {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+form label input {
+  box-sizing: border-box;
+  display: block;
+  border: none;
+  padding: 20px;
+  width: 100%;
+  font-size: 18px;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+  border: solid 1px rgba(0,0,0,0.1);
+  border-radius: 10px;
+}
+
+form label input::-moz-placeholder {
+  -moz-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  color: #999;
+  font-size: 18px;
+}
+
+form label input:-ms-input-placeholder {
+  -ms-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  color: #999;
+  font-size: 18px;
+}
+
+form label input::placeholder {
+  transition: all 0.2s ease-in-out;
+  color: #999;
+  font-size: 18px;
+}
+
+form label input:focus, form label input.populated {
+  padding-top: 28px;
+  padding-bottom: 12px;
+}
+
+form label input:focus::-moz-placeholder, form label input.populated::-moz-placeholder {
+  color: transparent;
+}
+
+form label input:focus:-ms-input-placeholder, form label input.populated:-ms-input-placeholder {
+  color: transparent;
+}
+
+form label input:focus::placeholder, form label input.populated::placeholder {
+  color: transparent;
+}
+
+form label input:focus + span, form label input.populated + span {
+  opacity: 1;
+  top: 10px;
+}
+
+form label span {
+  color: #db0a5b;
+  font-size: 13px;
+  position: absolute;
+  top: 0px;
+  left: 20px;
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+}
+
+#reimbursementModal form > span {
+  width: 100%;
+  border: solid 1px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+#reimbursementModal form > span p {
+  padding-left: 20px;
+  padding-right: 2px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  display: inline-block;
+  color: #888;
+}
+
+form input[type=submit] {
+  transition: all 0.2s ease-in-out;
+  font-size: 18px;
+  border: none;
+  background: #db0a5b;
+  color: #fff;
+  padding: 16px 40px;
+  border-radius: 10px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+form input[type=submit]:hover {
+  background: #db0a5b;
+}
+
+#reimbursementModal form input {
+  margin-bottom: 10px;
+}

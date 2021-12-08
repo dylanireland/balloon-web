@@ -9,11 +9,20 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tilt.js/1.0.3/tilt.jquery.min.js" integrity="sha512-14AZ/DxUrlF26z6v7egDkpJHKyJRn/7ue2BgpWZ/fmqrqVzf4PrQnToy99sHmKwzKev/VZ1tjPxusuTV/n8CcQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/photos/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/photos/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/photos/favicon/favicon-16x16.png">
+  <link rel="manifest" href="assets/photos/favicon/site.webmanifest">
+  <link rel="mask-icon" href="assets/photos/favicon/safari-pinned-tab.svg" color="#5bbad5">
+  <link rel="shortcut icon" href="assets/photos/favicon/favicon.ico">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="msapplication-config" content="assets/photos/favicon/browserconfig.xml">
+  <meta name="theme-color" content="#ffffff">
 </head>
 <body id="body">
   <div id="home">
     <div id="navbar">
-      <img class="navLogo" src="/assets/photos/fulllogo.svg">
+      <img class="navLogo" src="assets/photos/fulllogorinkeby.svg">
       <div class="navLinks">
         <a href="dapp" class="navitem navstar">Launch dApp</a>
       </div>
@@ -36,28 +45,34 @@
       <div class="col-4 tile js-tilt" data-tilt>
         <div class="inner">
           <div class="imgContainer">
-            <img src="/assets/photos/lending.svg">
+            <img src="assets/photos/lending.svg">
           </div>
-          <h2>Lend</h2>
-          <p>Balloon makes it easy to earn passive returns on your NFTs. Simply deposit a floor-priced NFT of your choosing, specificy a few parameters, and earn interest on your NFTs! <a>Read More</a></p>
+          <div class="aboutTextHolder">
+            <h2>Lend</h2>
+            <p>Balloon makes it easy to earn passive returns on your NFTs. Simply deposit a floor-priced NFT of your choosing, specificy a few parameters, and earn interest on your NFTs! <a>Read More</a></p>
+          </div>
         </div>
       </div>
       <div class="col-4 tile js-tilt" data-tilt>
         <div class="inner">
           <div class="imgContainer">
-            <img src="/assets/photos/borrow.svg">
+            <img src="assets/photos/borrow.svg">
           </div>
-          <h2>Borrow</h2>
-          <p>Borrowing NFTs has never been easier. Just choose an NFT to borrow, post collateral, and do with it what you wish! You may return any NFT of the same collection to repay your loan.<a>Read More</a></p>
+          <div class="aboutTextHolder">
+            <h2>Borrow</h2>
+            <p>Borrowing NFTs has never been easier. Just choose an NFT to borrow, post collateral, and do with it what you wish! You may return any NFT of the same collection to repay your loan.<a>Read More</a></p>
+          </div>
         </div>
       </div>
       <div class="col-4 tile js-tilt" data-tilt>
         <div class="inner">
           <div class="imgContainer">
-            <img src="/assets/photos/short.svg">
+            <img src="assets/photos/short.svg">
           </div>
-          <h2>Short</h2>
-          <p>By borrowing, selling immediately, and buying back later, Balloon allows you to effectively short NFTs. After taking a loan, you may return any NFT within that collection <a>Read More</a></p>
+          <div class="aboutTextHolder">
+            <h2>Short</h2>
+            <p>By borrowing, selling immediately, and buying back later, Balloon allows you to effectively short NFTs. After taking a loan, you may return any NFT within that collection <a>Read More</a></p>
+          </div>
         </div>
       </div>
     </div>
@@ -72,7 +87,7 @@
       </div>
       <div class="easyRight">
         <div id="floatingETHContainer">
-          <img src="/assets/photos/floatingeth.svg">
+          <img src="assets/photos/floatingeth.svg">
         </div>
       </div>
     </div>
@@ -101,7 +116,15 @@
       </div>
     </div>
   </div>
-  <script src="/assets/js/index.js"></script>
+  <div id="footer">
+    <p>&copy; 2021 Balloon Protocol</p>
+    <div class="links">
+      <img src="assets/photos/etherscan.svg" id="linkEtherscanLink">
+      <img src="assets/photos/twitter.svg" id="linkTwitterLink">
+    </div>
+  </div>
+  <script>const contractAddress = "<%= contractAddress %>";</script>
+  <script src="assets/js/index.js"></script>
   <script>
 
   </script>

@@ -22,7 +22,7 @@ enableEthereumButton.addEventListener('click', () => {
 });
 
 var redirectToBorrowable = function(address, tokenId) {
-    const uri = "/borrowable/" + address + "/" + tokenId;
+    const uri = "/nft/" + address + "/" + tokenId;
     window.location.href = uri;
 };
 
@@ -68,6 +68,16 @@ async function getAccount() {
   return accounts[0];
 }
 
+if (window.ethereum != null) {
+  ethereum.on('chainChanged', (chainId) => {
+    if (chainId != 4) {
+      removeGridsUntilConnected("You must be connected to the Rinkeby network to use Balloon");
+    } else {
+      window.location.reload();
+    }
+  });
+}
+
 
 async function layout(perPage, page) {
   let borrowableGrid = document.getElementById("borrowableGrid");
@@ -79,10 +89,18 @@ async function layout(perPage, page) {
     noNFTsNotifier.innerHTML = "There are no NFTs available to borrow";
     borrowableGrid.style.gridTemplateColumns = "1fr";
     borrowableGrid.appendChild(noNFTsNotifier);
-    console.log("No nfts");
+    document.getElementById("pageButtons").style.display = "none";
     //tell em there's no NFTs!
     return;
   }
+  const loaderWrapper = document.createElement("div");
+  const loader = document.createElement("img");
+  loaderWrapper.classList.add("loaderWrapper");
+  loader.classList.add("loader");
+  loader.src = "/assets/photos/loading.svg";
+  loaderWrapper.appendChild(loader);
+  borrowableGrid.appendChild(loaderWrapper);
+
 
   if (gpages == 0) {
     gpages = Math.ceil(length / perPage); //Set total pages
@@ -119,8 +137,9 @@ async function layout(perPage, page) {
 
     clone.addEventListener('click', function () { redirectToBorrowable(currentNFT.addy, currentNFT.tokenId) }, false);
 
-    borrowableGrid.append(clone);
+    borrowableGrid.insertBefore(clone, borrowableGrid.childNodes[length - (stIndex - inIndex)]);
   }
+  loaderWrapper.remove();
 }
 
 function resetGrid() {
@@ -136,6 +155,43 @@ function resetGrid() {
   var innerInteractable = document.getElementById("innerInteractable");
   innerInteractable.appendChild(newGrid);
   innerInteractable.append(pageButtonsClone);
+}
+
+function removeGridsUntilConnected(message, which, linkref) {
+  let borrowableGrid = document.getElementById("borrowableGrid");
+  if (borrowableGrid.style.display == "none") {
+    return;
+  }
+  let pageButtons = document.getElementById("pageButtons");
+  borrowableGrid.style.display = "none";
+  pageButtons.style.display = "none";
+  var innerInteractable = document.getElementById("innerInteractable");
+  const metaNotifierWrapper = document.createElement("div");
+  metaNotifierWrapper.classList.add("providerErrorWrapper");
+  const messageNode = document.createElement("p");
+  messageNode.classList.add("providerErrorMessage");
+  messageNode.innerHTML = message;
+  metaNotifierWrapper.appendChild(messageNode);
+  if (which != null) {
+    if (which == "get") {
+      const link = document.createElement("a");
+      link.classList.add("providerErrorLink");
+      link.innerHTML = "Get Metamask";
+      link.href = "https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn";
+      link.target = "_blank";
+      metaNotifierWrapper.appendChild(link);
+    } else if (which == "connect") {
+      const connectButton = document.createElement("button");
+      connectButton.onclick = function() { getAccount() };
+      connectButton.innerHTML = "Connect to Metamask";
+      connectButton.classList.add("providerErrorConnectButton");
+      metaNotifierWrapper.appendChild(connectButton);
+    }
+  }
+
+
+  innerInteractable.appendChild(metaNotifierWrapper);
+
 }
 
 function prevPage() {
@@ -163,12 +219,28 @@ function nextPage() {
     layout(gperPage, 0);
   }
 }
-async function checkChain() {
-  const { chainId } = await provider.getNetwork();
-  if (chainId != 4) {
-    alert("You must be connected to the Rinkeby network to use Balloon");
+
+async function checkConnection() {
+  if (window.ethereum == null) {
+    removeGridsUntilConnected("You must install Metamask to use Balloon.", "get");
+    return;
   }
+  provider.listAccounts().then(result => {
+    if (result.length == 0) {
+      removeGridsUntilConnected("Please connect to Metamask to use Balloon", "connect");
+      return;
+    }
+  });
+  const { chainId } = await provider.getNetwork();
+  if (chainId == 4) {
+    layout(gperPage, gpage);
+    return;
+  }
+  removeGridsUntilConnected("You must be connected to the Rinkeby network to use Balloon");
 }
 
-checkChain();
-layout(gperPage, gpage);
+
+
+
+
+checkConnection();

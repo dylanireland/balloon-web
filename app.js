@@ -5,11 +5,11 @@ const Web3 = require('web3');
 const axios = require("axios");
 
 const app = express();
-const port = process.env.PORT || "80";
+const port = 3000;
 const web3 = new Web3(Web3.givenProvider || "https://rinkeby.infura.io/v3/79176195facd464d82f763a1dfea9acd");
 
 const abi = JSON.parse(fs.readFileSync('./abi.json'));
-const addy = "0xD7f06900cc3044Cae2BB0FA02b6c881d192A48B1";
+const addy = "0xE07e5AA3cdE303AFd41C7dB456C7604D0b0b6eF1";
 const Contract = new web3.eth.Contract(abi, addy);
 
 app.set('view engine', 'ejs');
@@ -20,10 +20,10 @@ app.get("/dapp", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  res.render('index', {});
+  res.render('index', {contractAddress: addy});
 });
 
-app.get("/borrowable/:address/:tokenId", (req, res) => {
+app.get("/nft/:address/:tokenId", (req, res) => {
   res.render('borrowable', {contractAddress: addy, nftAddress: req.params.address, tokenId: req.params.tokenId})
 });
 
@@ -34,4 +34,6 @@ app.get("/profile/:address", (req, res) => {
 
 
 
-app.listen(port);
+app.listen(port, "127.0.0.1", () => {
+  console.log("Server running");
+});

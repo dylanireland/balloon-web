@@ -17,7 +17,7 @@ enableEthereumButton.addEventListener('click', () => { getAccount(); });
 borrowButton.addEventListener('click', () => { sendBorrow(); });
 withdrawButton.addEventListener('click', () => { sendWithdraw(); });
 approveButton.addEventListener('click', () => { sendApproval(); });
-repayButton.addEventListener('click', () => { sendRepay(); });
+repayButton.addEventListener('click', () => { loadReimbursement(); });
 livenButton.addEventListener('click', () => { updateLivelihood(); });
 liquidateButton.addEventListener('click', () => { liquidate(); });
 
@@ -141,7 +141,7 @@ async function sendApproval() {
   if (gnft == null) {
     var gnft = await findNFTWithTypes(nftAddress, tokenId);
   }
-  setApprovalForAll(gnft).then(() => {
+  setApprovalForAll(gnft.addy).then(() => {
     approveButton.style.display = "none";
     tryToLoadButton(gnft);
   }).catch((e) => {
@@ -149,11 +149,10 @@ async function sendApproval() {
   });
 }
 
-async function sendRepay() {
-  if (gnft == null) {
-    var gnft = await findNFTWithTypes(nftAddress, tokenId);
-  }
-  let tx = await balloonContract.connect(provider.getSigner()).reimburseNFT(gnft.addy, gnft.tokenId, gnft.tokenId);
+async function loadReimbursement() {
+  reimbursementModalWrapper.style.display = "block";
+  return;
+
 }
 
 async function updateLivelihood() {
@@ -172,3 +171,96 @@ async function liquidate() {
 }
 
 loadInfo();
+
+/* REIMBURSEMENT MODAL */
+
+var reimbursementModalWrapper = document.getElementById("reimbursementModalWrapper");
+
+window.onclick = function(event) {
+  if (event.target == reimbursementModalWrapper) {
+    reimbursementModalWrapper.style.display = "none";
+  }
+}
+
+async function checkApproval(address) {
+  let reimburseSubmit = document.getElementById("reimburseSubmit");
+  reimburseSubmit.style.display = "block";
+  if (accounts.length == 0) {
+    reimburseSubmit.value = "Not Connected";
+    return;
+  }
+
+  isApprovedForAll(address, accounts[0], contractAddress).then((isApproved) => {
+    if (isApproved) {
+      reimburseSubmit.value = "Reimburse NFT";
+    } else if (!isApproved) {
+      reimburseSubmit.value = "Approve";
+    }
+  }).catch((e) => {
+    reimburseSubmit.value = "Error Checking Approval";
+  })
+
+}
+
+async function tryToObtainNFTPhoto(tokenId) {
+  let reimbursementPreview = document.getElementById("reimbursementPreview");
+  getPFPURI(nftAddress, tokenId).then((uri) => {
+    getNFTMetadata(uri).then((metadata) => {
+      reimbursementPreview.src = metadata.image;
+    }).catch((e) => {
+      reimbursementPreview.src = "/assets/photos/unchosen.svg";
+      console.log(e);
+    });
+  }).catch((e) => {
+    reimbursementPreview.src = "/assets/photos/unchosen.svg";
+    console.log(e);
+  });
+}
+
+async function formDidChange() {
+  if (gnft == null) {
+    var gnft = await findNFTWithTypes(nftAddress, tokenId);
+  }
+  const isReturningOriginal = document.getElementById("reimburse_original").checked;
+  let tokenIdField = document.getElementById("reimburse_tokenId");
+  var reimbursementPreview = document.getElementById("reimbursementPreview");
+  checkApproval(nftAddress); //Sets up approval submit button
+  if (isReturningOriginal) {
+    reimbursementPreview.src = document.getElementById("mainImage").src;
+    tokenIdField.value = gnft.tokenId;
+    tokenIdField.disabled = true;
+  } else {
+    tokenIdField.disabled = false;
+    if (tokenIdField.value != "") {
+      tryToObtainNFTPhoto(tokenIdField.value);
+    }
+  }
+}
+
+async function sendRepay() {
+  if (gnft == null) {
+    var gnft = await findNFTWithTypes(nftAddress, tokenId);
+  }
+  const reimbursementTokenId = document.getElementById("reimburse_tokenId").value;
+  const isReturningOriginal = document.getElementById("reimburse_original").checked;
+  let reimburseSubmit = document.getElementById("reimburseSubmit");
+
+  if (reimburseSubmit.value == "Approve") {
+    try {
+      //Animate loader
+      await setApprovalForAll(nftAddress);
+      reimburseSubmit.value = "Reimburse NFT";
+    } catch(error) {
+      alert(error);
+    }
+  } else if (reimburseSubmit.value == "Reimburse NFT" && reimbursementTokenId != "") {
+    try {
+      //Animate loader
+      console.log("Token for which to be repaid", reimbursementTokenId, " For ", gnft.tokenId);
+      let tx = await balloonContract.connect(provider.getSigner()).reimburseNFT(nftAddress, isReturningOriginal ? gnft.tokenId: reimbursementTokenId, gnft.tokenId);
+    } catch(error) {
+      alert(error);
+    }
+  }
+
+}
