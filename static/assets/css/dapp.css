@@ -151,6 +151,11 @@
   margin-top: 20px;
 }
 
+.providerErrorDiv {
+  display: flex;
+  align-items: center;
+}
+
 .providerErrorMessage {
   display: inline;
 }

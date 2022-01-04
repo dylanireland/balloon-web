@@ -9,6 +9,7 @@ let gperPage = 12;
 let gpage = 0;
 let gpages = 0;
 
+
 profileLink.addEventListener('click', () => {
   handleProfileClick();
 });
@@ -85,10 +86,18 @@ async function layout(perPage, page) {
   let length = (await getLiveNFTsLength()).toNumber();
   if (length == 0) {
     nftElement.style.display = "none";
+    let _div = document.createElement("div");
+    _div.classList.add("providerErrorDiv");
     let noNFTsNotifier = document.createElement("h1");
     noNFTsNotifier.innerHTML = "There are no NFTs available to borrow";
+    const depositNFTButton = document.createElement("button");
+    depositNFTButton.onclick = function() { getAccount().then(() => { location.href = "https://balloonprotocol.com/profile/0x3221ca74618c7b852d212ff86f2c17f7930264b7?func=deposit" }) };
+    depositNFTButton.innerHTML = "Deposit NFT";
+    depositNFTButton.classList.add("providerErrorConnectButton");
     borrowableGrid.style.gridTemplateColumns = "1fr";
-    borrowableGrid.appendChild(noNFTsNotifier);
+    _div.appendChild(noNFTsNotifier);
+    _div.appendChild(depositNFTButton);
+    borrowableGrid.appendChild(_div);
     document.getElementById("pageButtons").style.display = "none";
     //tell em there's no NFTs!
     return;
@@ -129,11 +138,11 @@ async function layout(perPage, page) {
     let tokenURI = await getNFTURI(currentNFT);
     let metadata = await getNFTMetadata(tokenURI);
 
-    clone.getElementsByClassName("nftImage")[0].src = metadata.image;
-    clone.getElementsByClassName("priceLabel")[0].innerHTML = (currentNFT.valuation * 10**-18).toString();
-    clone.getElementsByClassName("collateralLabel")[0].innerHTML = "@ " + (currentNFT.collateralMultiplier).toString() + "x";
-    clone.getElementsByClassName("nftTokenId")[0].innerHTML = "#" + (currentNFT.tokenId).toString();
-    clone.getElementsByClassName("nftCollectionName")[0].innerHTML = truncate(currentNFT.addy, 6);
+    clone.getElementsByClassName("nftImage")[0].src = escapeHTML(metadata.image);
+    clone.getElementsByClassName("priceLabel")[0].innerHTML = escapeHTML((currentNFT.valuation * 10**-18).toString());
+    clone.getElementsByClassName("collateralLabel")[0].innerHTML = "@ " + escapeHTML((currentNFT.collateralMultiplier).toString() + "x");
+    clone.getElementsByClassName("nftTokenId")[0].innerHTML = "#" + escapeHTML((currentNFT.tokenId).toString());
+    clone.getElementsByClassName("nftCollectionName")[0].innerHTML = escapeHTML(truncaddy(currentNFT.addy, 12));
 
     clone.addEventListener('click', function () { redirectToBorrowable(currentNFT.addy, currentNFT.tokenId) }, false);
 
@@ -182,7 +191,7 @@ function removeGridsUntilConnected(message, which, linkref) {
       metaNotifierWrapper.appendChild(link);
     } else if (which == "connect") {
       const connectButton = document.createElement("button");
-      connectButton.onclick = function() { getAccount() };
+      connectButton.onclick = function() { getAccount().then(() => { location.reload() }) };
       connectButton.innerHTML = "Connect to Metamask";
       connectButton.classList.add("providerErrorConnectButton");
       metaNotifierWrapper.appendChild(connectButton);

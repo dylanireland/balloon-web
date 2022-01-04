@@ -39,12 +39,15 @@ async function loadInfo() {
   var metadata = await getNFTMetadata(uri);
   document.getElementById("mainImage").src = metadata.image;
   var h3s = document.getElementsByClassName("label");
-  h3s[0].innerHTML = h3s[0].innerHTML + truncate(gnft.addy, 12);
-  h3s[1].innerHTML = h3s[1].innerHTML + truncate(gnft.lender, 12);
-  h3s[2].innerHTML = h3s[2].innerHTML + (gnft.valuation * 10**-18).toString();
-  h3s[3].innerHTML = h3s[3].innerHTML + (gnft.collateralMultiplier * gnft.valuation * 10**-18).toString();
-  h3s[4].innerHTML = h3s[4].innerHTML + (gnft.desiredInterest * 10**-2).toString();
-  h3s[5].innerHTML = h3s[5].innerHTML + secondsToDhms(gnft.loanDuration);
+  h3s[0].innerHTML = h3s[0].innerHTML + escapeHTML(truncaddy(gnft.addy, 12));
+  h3s[0].onclick = function() { location.href = "https://rinkeby.etherscan.io/address/" + escapeHTML(gnft.addy); };
+  h3s[1].innerHTML = h3s[1].innerHTML + escapeHTML(truncaddy(gnft.lender, 12));
+  h3s[1].onclick = function() { location.href = "https://rinkeby.etherscan.io/address/" + escapeHTML(gnft.lender); };
+  //DO CSS TO MAKE THESE TWO HAVE POINTERS
+  h3s[2].innerHTML = h3s[2].innerHTML + escapeHTML((gnft.valuation * 10**-18).toString());
+  h3s[3].innerHTML = h3s[3].innerHTML + escapeHTML((gnft.collateralMultiplier * gnft.valuation * 10**-18).toString());
+  h3s[4].innerHTML = h3s[4].innerHTML + escapeHTML((gnft.desiredInterest * 10**-2).toString());
+  h3s[5].innerHTML = h3s[5].innerHTML + escapeHTML(secondsToDhms(gnft.loanDuration));
 }
 
 async function tryToLoadButton(nft) {
@@ -262,5 +265,4 @@ async function sendRepay() {
       alert(error);
     }
   }
-
 }

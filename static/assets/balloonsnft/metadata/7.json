@@ -1,0 +1,11 @@
+{
+    "image": "https://balloonprotocol.com/assets/balloonsnft/images/7.png",
+    "tokenId": 7,
+    "name": "Balloon #7",
+    "attributes": [
+        {
+            "trait_type": "Color",
+            "value": "Red"
+        },
+    ]
+}

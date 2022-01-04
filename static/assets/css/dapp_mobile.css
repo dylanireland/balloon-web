@@ -1,0 +1,25 @@
+@media (max-aspect-ratio: 10/16) {
+
+  /* SIDEBAR */
+
+  #sidebar {
+    display: none;
+  }
+
+  /* INNER INTERACTABLE */
+
+  .providerErrorWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .providerErrorMessage {
+    font-size: 1.5em;
+  }
+
+  .providerErrorConnectButton {
+    margin-top: 20px;
+    font-size: 2em;
+  }
+}

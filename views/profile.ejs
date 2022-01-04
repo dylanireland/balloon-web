@@ -9,15 +9,16 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.5.1/ethers.umd.js" integrity="sha512-83dP6P/Fmka9dR4PRvT3+FRd2cbMJpCOuSX6iMB3eAI9KHVHHYg0cX2dvgmW/Cs5hZif0qQ8r99JWa6EpGY0Aw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/photos/favicon/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/photos/favicon/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/photos/favicon/favicon-16x16.png">
-  <link rel="manifest" href="assets/photos/favicon/site.webmanifest">
-  <link rel="mask-icon" href="assets/photos/favicon/safari-pinned-tab.svg" color="#5bbad5">
-  <link rel="shortcut icon" href="assets/photos/favicon/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/photos/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/photos/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/photos/favicon/favicon-16x16.png">
+  <link rel="manifest" href="/assets/photos/favicon/site.webmanifest">
+  <link rel="mask-icon" href="/assets/photos/favicon/safari-pinned-tab.svg" color="#5bbad5">
+  <link rel="shortcut icon" href="/assets/photos/favicon/favicon.ico">
   <meta name="msapplication-TileColor" content="#da532c">
-  <meta name="msapplication-config" content="assets/photos/favicon/browserconfig.xml">
+  <meta name="msapplication-config" content="/assets/photos/favicon/browserconfig.xml">
   <meta name="theme-color" content="#ffffff">
+  <title>Balloon - Profile</title>
 </head>
 <body id="body">
   <div id="modalWrapper">
@@ -52,32 +53,56 @@
       <div>
         <form action="javascript:;" onsubmit="deposit()">
           <h3>Deposit NFT</h3>
-          <label>
-            <input id="deposit_nft_address" type="text" name="address" placeholder="NFT Address" onchange="tryToObtainNFTPhoto()"></input>
-            <span>NFT Address</span>
-          </label>
-          <label>
-            <input id="deposit_tokenId" type="text" name="tokenId" placeholder="Token ID" onchange=tryToObtainNFTPhoto()></input>
-            <span>Token ID</span>
-          </label>
-          <label>
-            <input id="deposit_valuation" type="text" name="valuation" placeholder="Valuation"></input>
-            <span>Valuation</span>
-          </label>
-          <label>
-            <input id="deposit_interest" type="text" name="interest" placeholder="Interest Rate"></input>
-            <span>Interest Rate</span>
-          </label>
-          <label>
-            <input id="deposit_duration" type="text" name="duration" placeholder="Loan Duration"></input>
-            <span>Loan Duration</span>
-          </label>
-          <label>
-            <input id="deposit_collateral_multiplier" type="text" name="multiplier" placeholder="Collateral Multiplier"></input>
-            <span>Collateral Multiplier</span>
-          </label>
-          <span><p>Borrowable Upon Deposit</p><input id="deposit_start_live" type="checkbox" name="startLive" placeholder="Borrowable Upon Deposit"></input></span>
-          <span><p>Relist Upon Loan Reimbursement</p><input id="deposit_should_relist" type="checkbox" name="shouldRelist" placeholder="Relist Upon Loan Reimbursement"></input></span>
+          <div>
+            <label>
+              <input id="deposit_nft_address" type="text" name="address" placeholder="NFT Address" onchange="tryToObtainNFTPhoto()"></input>
+              <span>NFT Address</span>
+            </label>
+            <a data-tooltip="The contract address of the NFT you want to deposit."><img class="info" src="/assets/photos/info.svg"></a>
+          </div>
+          <div>
+            <label>
+              <input id="deposit_tokenId" type="text" name="tokenId" placeholder="Token ID" onchange=tryToObtainNFTPhoto()></input>
+              <span>Token ID</span>
+            </label>
+            <a data-tooltip="The token ID of the NFT you want to deposit"><img class="info" src="/assets/photos/info.svg"></a>
+          </div>
+          <div>
+            <label>
+              <input id="deposit_valuation" type="text" name="valuation" placeholder="Valuation"></input>
+              <span>Valuation</span>
+            </label>
+            <a data-tooltip="The valuation of the NFT you want to deposit. This value is set by you and borrowers are expected to borrow NFTs with the lowest valuation. The floor price of the collection is a common choice."><img class="info" src="/assets/photos/info.svg"></a>
+          </div>
+          <div>
+            <label>
+              <input id="deposit_interest" type="text" name="interest" placeholder="Interest Rate"></input>
+              <span>Interest Rate</span>
+            </label>
+            <a data-tooltip="The interest rate charged to the borrower."><img class="info" src="/assets/photos/info.svg"></a>
+          </div>
+          <div>
+            <label>
+              <input id="deposit_duration" type="text" name="duration" placeholder="Loan Duration"></input>
+              <span>Loan Duration</span>
+            </label>
+            <a data-tooltip="The duration (in seconds) of the loan. If a borrower has not reimbursed the NFT by the end of the loan duration the lender can liquidate them."><img class="info" src="/assets/photos/info.svg"></a>
+          </div>
+          <div>
+            <label>
+              <input id="deposit_collateral_multiplier" type="text" name="multiplier" placeholder="Collateral Multiplier"></input>
+              <span>Collateral Multiplier</span>
+            </label>
+            <a data-tooltip="The multiplier by which borrowers must be collateralized. Borrowers will have to post ETH totaling the valuation multiplied by the collateral multiplier. Borrowers are expected to borrow NFTs with the lowest collateral multiplier."><img class="info" src="/assets/photos/info.svg"></a>
+          </div>
+          <div>
+            <span><p>Borrowable Upon Deposit</p><input id="deposit_start_live" type="checkbox" name="startLive" placeholder="Borrowable Upon Deposit"></input></span>
+            <a data-tooltip="If checked, this NFT will be able to be borrowed as soon as it is deposited in Balloon. If unchecked, you can make it live later."><img class="info" src="/assets/photos/info.svg"></a>
+          </div>
+          <div>
+            <span><p>Relist Upon Loan Reimbursement</p><input id="deposit_should_relist" type="checkbox" name="shouldRelist" placeholder="Relist Upon Loan Reimbursement"></input></span>
+            <a data-tooltip="If checked, NFTs will be able to be reborrowed as soon as they are reimbursed from a loan. If unchecked, they will not be live upon loan reimbursement, and you can change this value later."><img class="info" src="/assets/photos/info.svg"></a>
+          </div>
           <input id="depositSubmit" type="submit" value="Loading...">
         </form>
       </div>

@@ -1,6 +1,11 @@
 var depositButton = document.getElementById("depositButton");
 let depositSubmit = document.getElementById("depositSubmit");
 
+//Check if rerouted from homepage deposit
+if (window.location.search.substr(1) == "func=deposit") {
+  showDepositMenu();
+}
+
 var redirectToBorrowable = function(address, tokenId) {
     const uri = "/nft/" + address + "/" + tokenId;
     window.location.href = uri;
@@ -286,17 +291,21 @@ function nextPage(which) {
 
 }
 
-var modalWrapper = document.getElementById("modalWrapper");
-var depositModalWrapper = document.getElementById("depositModalWrapper");
+function showDepositMenu() {
+  const modalWrapper = document.getElementById("modalWrapper");
+  const depositModalWrapper = document.getElementById("depositModalWrapper");
+
+  depositSubmit.style.display = "none";
+  depositModalWrapper.style.display = "block";
+}
 
 document.getElementById("editProfile").onclick = function () {
   modalWrapper.style.display = "block";
 }
 
-document.getElementById("depositButton").onclick = function () {
-  depositSubmit.style.display = "none";
-  depositModalWrapper.style.display = "block";
-}
+document.getElementById("depositButton").onclick = function () { showDepositMenu(); }
+
+
 
 window.onclick = function(event) {
   if (event.target == modalWrapper) {

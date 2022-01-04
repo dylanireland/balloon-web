@@ -9,14 +9,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tilt.js/1.0.3/tilt.jquery.min.js" integrity="sha512-14AZ/DxUrlF26z6v7egDkpJHKyJRn/7ue2BgpWZ/fmqrqVzf4PrQnToy99sHmKwzKev/VZ1tjPxusuTV/n8CcQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/photos/favicon/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/photos/favicon/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/photos/favicon/favicon-16x16.png">
-  <link rel="manifest" href="assets/photos/favicon/site.webmanifest">
-  <link rel="mask-icon" href="assets/photos/favicon/safari-pinned-tab.svg" color="#5bbad5">
-  <link rel="shortcut icon" href="assets/photos/favicon/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/photos/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/photos/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/photos/favicon/favicon-16x16.png">
+  <link rel="manifest" href="/assets/photos/favicon/site.webmanifest">
+  <link rel="mask-icon" href="/assets/photos/favicon/safari-pinned-tab.svg" color="#5bbad5">
+  <link rel="shortcut icon" href="/assets/photos/favicon/favicon.ico">
   <meta name="msapplication-TileColor" content="#da532c">
-  <meta name="msapplication-config" content="assets/photos/favicon/browserconfig.xml">
+  <meta name="msapplication-config" content="/assets/photos/favicon/browserconfig.xml">
   <meta name="theme-color" content="#ffffff">
 </head>
 <body id="body">
@@ -30,7 +30,7 @@
     <div id="showoff">
       <div id="background"></div>
       <div class="content">
-        <h1>The world's first NFT borrowing and lending marketplace!</h1>
+        <h1>The world's first decentralized NFT lending, borrowing and shorting protocol on the Ethereum blockchain!</h1>
         <div id="leanmoreContainer">
           <button id="learnmore">Learn More</button>
         </div>
@@ -116,11 +116,73 @@
       </div>
     </div>
   </div>
+  <div id="roadmap">
+    <div>
+      <div class="left">
+        <img src="assets/photos/roadmap.svg" alt="Roadmap Balloon">
+      </div>
+      <div class="right">
+        <h1>Roadmap</h1>
+        <div class="milestone">
+          <h4>Live on Rinkeby Testnet</h4>
+          <p>Balloon is live on the Rinkeby testnet and lending and borrowing is enabled. Visit the app <a href="dapp">here</a> to test out the platform.</p>
+        </div>
+        <div class="milestone">
+          <h4>Enable ERC20 Collateralization</h4>
+          <p>Soon, Balloon will support the use of ERC20 tokens as collateral and for interest payments. Currently, only ETH is permitted to be used.</p>
+        </div>
+        <div class="milestone">
+          <h4>Security Audit</h4>
+          <p>Before its release on the Ethereum mainnet, Balloon will be receiving a security audit from a reputed institution. Once we make our contract(s) public, we intend to host bug bounties for developers.</p>
+        </div>
+        <div class="milestone">
+          <h4>Mainnet Release</h4>
+          <p>In early 2022, Balloon will be released on the Ethereum mainnet and will interact with live NFTs. </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="faq">
+    <h1>FAQ</h1>
+    <div class="qa question">
+      <div class="left">
+        <h1>Q</h1>
+      </div>
+      <div class="right">
+        <h3>How am I able to bet against NFTs using Balloon?</h3>
+      </div>
+    </div>
+    <div class="qa answer">
+      <div class="left">
+        <h1>A</h1>
+      </div>
+      <div class="right">
+        <h3>By borrowing an NFT, selling it on the open market, waiting for the floor-price of the collection to drop, buying the same or different NFT back and returning it, you can effectively short an NFT collection.</h3>
+      </div>
+    </div>
+    <div class="qa question">
+      <div class="left">
+        <h1>Q</h1>
+      </div>
+      <div class="right">
+        <h3>Why don't I see the NFTs I've deposited on Rinkeby?</h3>
+      </div>
+    </div>
+    <div class="qa answer">
+      <div class="left">
+        <h1>A</h1>
+      </div>
+      <div class="right">
+        <h3>We often update our smart contract to include new features. Once Balloon is deployed to the Ethereum mainnet </h3>
+      </div>
+    </div>
+  </div>
+
   <div id="footer">
     <p>&copy; 2021 Balloon Protocol</p>
     <div class="links">
-      <img src="assets/photos/etherscan.svg" id="linkEtherscanLink">
-      <img src="assets/photos/twitter.svg" id="linkTwitterLink">
+      <img src="assets/photos/etherscan.svg" id="linkEtherscanLink" alt="Etherscan Link">
+      <img src="assets/photos/twitter.svg" id="linkTwitterLink" alt="Twitter Link">
     </div>
   </div>
   <script>const contractAddress = "<%= contractAddress %>";</script>
