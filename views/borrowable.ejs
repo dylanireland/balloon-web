@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.5.1/ethers.umd.js" integrity="sha512-83dP6P/Fmka9dR4PRvT3+FRd2cbMJpCOuSX6iMB3eAI9KHVHHYg0cX2dvgmW/Cs5hZif0qQ8r99JWa6EpGY0Aw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bignumber.js/8.0.2/bignumber.min.js" integrity="sha512-7UzDjRNKHpQnkh1Wf1l6i/OPINS9P2DDzTwQNX79JxfbInCXGpgI1RPb3ZD+uTP3O5X7Ke4e0+cxt2TxV7n0qQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/photos/favicon/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/photos/favicon/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/photos/favicon/favicon-16x16.png">
@@ -34,7 +35,10 @@
             <input id="reimburse_tokenId" type="text" name="tokenId" placeholder="Token ID" oninput=formDidChange()></input>
             <span>Token ID</span>
           </label>
-          <input id="reimburseSubmit" type="submit" value="Waiting...">
+          <div class="buttonWrapper">
+            <input id="reimburseSubmit" type="submit" value="Waiting...">
+            <img id="reimburse_loader" class="loader" src="/assets/photos/loading.svg">
+          </div>
         </form>
       </div>
     </div>
@@ -48,29 +52,80 @@
       <div id="left">
         <img id="mainImage">
         <div id="buttons">
-          <button id="enableEthereumButton">Enable Ethereum</button>
-          <button id="borrowButton">Borrow</button>
-          <button id="withdrawButton">Withdraw</button>
-          <button id="approveButton">Approve</button>
-          <button id="repayButton">Reimburse NFT</button>
-          <button id="livenButton"></button>
-          <button id="liquidateButton">Liquidate</button>
+          <div class="buttonWrapper">
+            <button id="enableEthereumButton">Enable Ethereum</button>
+          </div>
+          <div class="buttonWrapper">
+            <button id="borrowButton">Borrow</button>
+            <img id="borrow_loader" class="loader" src="/assets/photos/loading.svg">
+          </div>
+          <div class="buttonWrapper">
+            <button id="withdrawButton">Withdraw</button>
+            <img id="withdraw_loader" class="loader" src="/assets/photos/loading.svg">
+          </div>
+          <div class="buttonWrapper">
+            <button id="approveButton">Approve</button>
+            <img id="approve_loader" class="loader" src="/assets/photos/loading.svg">
+          </div>
+          <div class="buttonWrapper">
+            <button id="repayButton">Reimburse NFT</button>
+          </div>
+          <div class="buttonWrapper">
+            <button id="livenButton"></button>
+            <img id="liven_loader" class="loader" src="/assets/photos/loading.svg">
+          </div>
+          <div class="buttonWrapper">
+            <button id="liquidateButton">Liquidate</button>
+            <img id="liquidate_loader" class="loader" src="/assets/photos/loading.svg">
+          </div>
         </div>
       </div>
       <div id="right">
         <div id="rightContent">
-          <p>Collection</p>
-          <h3 class="label"></h3>
-          <p>Lender</p>
-          <h3 class="label"></h3>
-          <p>Valuation</p>
-          <h3 class="label"></h3>
-          <p>Collateral Requirement</p>
-          <h3 class="label"></h3>
-          <p>Interest</p>
-          <h3 class="label">%</h3>
-          <p>Loan Duration</p>
-          <h3 class="label" id="loanDuration"></h3>
+          <div>
+            <p>Collection</p>
+            <div class="singleInfoContainer">
+              <h3 class="label"></h3>
+              <a data-tooltip="The contract address of the NFT collection."><img class="info" src="/assets/photos/info.svg"></a>
+              <img class="sharrow" src="/assets/photos/share.svg">
+            </div>
+          </div>
+          <div>
+            <p>Lender</p>
+            <div class="singleInfoContainer">
+              <h3 class="label"></h3>
+              <a data-tooltip="The address of the lender."><img class="info" src="/assets/photos/info.svg"></a>
+              <img class="sharrow" src="/assets/photos/share.svg">
+            </div>
+          </div>
+          <div>
+            <p>Valuation</p>
+            <div class="singleInfoContainer">
+              <h3 class="label">Ξ </h3>
+              <a data-tooltip="The value of the NFT (defined by the lender)."><img class="info" src="/assets/photos/info.svg"></a>
+            </div>
+          </div>
+          <div>
+            <p>Collateral Requirement</p>
+            <div class="singleInfoContainer">
+              <h3 class="label">Ξ </h3>
+              <a data-tooltip="The collateral required to borrow this NFT."><img class="info" src="/assets/photos/info.svg"></a>
+            </div>
+          </div>
+          <div>
+            <p>Interest</p>
+            <div class="singleInfoContainer">
+              <h3 class="label">%</h3>
+              <a data-tooltip="The interest rate charged by the lender (APR)."><img class="info" src="/assets/photos/info.svg"></a>
+            </div>
+          </div>
+          <div>
+            <p>Loan Duration</p>
+            <div class="singleInfoContainer">
+              <h3 class="label" id="loanDuration"></h3>
+              <a data-tooltip="The duration of the loan. Once this duration is over, the lender may liquidate one's loan."><img class="info" src="/assets/photos/info.svg"></a>
+            </div>
+          </div>
         </div>
       </div>
     </div>

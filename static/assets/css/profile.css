@@ -48,8 +48,27 @@
   border-radius: 15px;
 }
 
+#depositModal .submitWrapper {
+  width: 100%;
+  position: relative;
+  margin-top: 10px;
+}
+
+#depositModal .submitWrapper img {
+  position: absolute;
+  top: calc(50% - 12.5px);
+  left: calc(50% - 12.5px);
+  width: 25px;
+  height: 25px;
+  visibility: hidden;
+}
+
 #metaModal > div {
   width: 85%;
+}
+
+.margined {
+  margin-bottom: 10px;
 }
 
 form {
@@ -141,7 +160,7 @@ form label span {
   transition: all 0.2s ease-in-out;
 }
 
-form > div {
+form > .field {
   display: flex;
   width: 100%;
   margin-bottom: 10px;
@@ -177,7 +196,6 @@ form input[type=submit] {
   padding: 16px 40px;
   border-radius: 10px;
   width: 100%;
-  margin-top: 10px;
 }
 
 form input[type=submit]:hover {
@@ -324,67 +342,4 @@ form input[type=submit]:hover {
 
 .deposits .nftObject {
   padding: 10px;
-}
-
-/* TOOLTIPS */
-/* CHRIS BRACCO @ https://codepen.io/cbracco/pen/qzukg */
-
-[data-tooltip] {
-  position: relative;
-  z-index: 100;
-  cursor: pointer;
-}
-
-[data-tooltip]:before,
-[data-tooltip]:after {
-  visibility: hidden;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-  filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
-  opacity: 0;
-  pointer-events: none;
-}
-
-[data-tooltip]:before {
-  position: absolute;
-  bottom: 150%;
-  left: 50%;
-  margin-bottom: 5px;
-  margin-left: -80px;
-  padding: 7px;
-  width: 160px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  background-color: #000;
-  background-color: hsla(0, 0%, 20%, 0.9);
-  color: #fff;
-  content: attr(data-tooltip);
-  text-align: center;
-  font-size: 14px;
-  line-height: 1.2;
-}
-
-/* Triangle hack to make tooltip look like a speech bubble */
-[data-tooltip]:after {
-  position: absolute;
-  bottom: 150%;
-  left: 50%;
-  margin-left: -5px;
-  width: 0;
-  border-top: 5px solid #000;
-  border-top: 5px solid hsla(0, 0%, 20%, 0.9);
-  border-right: 5px solid transparent;
-  border-left: 5px solid transparent;
-  content: " ";
-  font-size: 0;
-  line-height: 0;
-}
-
-/* Show tooltip content on hover */
-[data-tooltip]:hover:before,
-[data-tooltip]:hover:after {
-  visibility: visible;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-  filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
-  opacity: 1;
 }

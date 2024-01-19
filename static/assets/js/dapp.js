@@ -59,7 +59,7 @@ async function handleProfileClick() {
     metaModal.style.display = "flex";
     return;
   }
-  window.location.href = "/profile/" + accounts[0];
+  window.location.href = "/profile/";
 }
 
 
@@ -72,7 +72,7 @@ async function getAccount() {
 if (window.ethereum != null) {
   ethereum.on('chainChanged', (chainId) => {
     if (chainId != 4) {
-      removeGridsUntilConnected("You must be connected to the Rinkeby network to use Balloon");
+      removeGridsUntilConnected("You must be connected to the Rinkeby network to use Balloon", "network");
     } else {
       window.location.reload();
     }
@@ -91,7 +91,7 @@ async function layout(perPage, page) {
     let noNFTsNotifier = document.createElement("h1");
     noNFTsNotifier.innerHTML = "There are no NFTs available to borrow";
     const depositNFTButton = document.createElement("button");
-    depositNFTButton.onclick = function() { getAccount().then(() => { location.href = "https://balloonprotocol.com/profile/0x3221ca74618c7b852d212ff86f2c17f7930264b7?func=deposit" }) };
+    depositNFTButton.onclick = function() { getAccount().then(() => { location.href = "https://balloonprotocol.com/profile/?func=deposit" }) };
     depositNFTButton.innerHTML = "Deposit NFT";
     depositNFTButton.classList.add("providerErrorConnectButton");
     borrowableGrid.style.gridTemplateColumns = "1fr";
@@ -118,7 +118,7 @@ async function layout(perPage, page) {
     }
   }
 
-  if (length > perPage * (page + 1)) {
+  if (length >= perPage * (page + 1)) {
     length = perPage * (page + 1);
   } else {
     length = (length + perPage) % perPage;
@@ -137,16 +137,19 @@ async function layout(perPage, page) {
     let currentNFT = await getLiveNFTAtIndex(stIndex);
     let tokenURI = await getNFTURI(currentNFT);
     let metadata = await getNFTMetadata(tokenURI);
+    const valuation = new BigNumber(currentNFT.valuation);
+    const collateralMultiplier = new BigNumber(currentNFT.collateralMultiplier);
 
-    clone.getElementsByClassName("nftImage")[0].src = escapeHTML(metadata.image);
-    clone.getElementsByClassName("priceLabel")[0].innerHTML = escapeHTML((currentNFT.valuation * 10**-18).toString());
-    clone.getElementsByClassName("collateralLabel")[0].innerHTML = "@ " + escapeHTML((currentNFT.collateralMultiplier).toString() + "x");
+    clone.getElementsByClassName("nftImage")[0].src = metadata.image;
+    clone.getElementsByClassName("priceLabel")[0].innerHTML = escapeHTML(valuation.div(1000000000000000000).toString());
+    clone.getElementsByClassName("collateralLabel")[0].innerHTML = "@ " + escapeHTML((collateralMultiplier.div(100)).toString() + "x");
     clone.getElementsByClassName("nftTokenId")[0].innerHTML = "#" + escapeHTML((currentNFT.tokenId).toString());
-    clone.getElementsByClassName("nftCollectionName")[0].innerHTML = escapeHTML(truncaddy(currentNFT.addy, 12));
+    clone.getElementsByClassName("nftCollectionName")[0].innerHTML = escapeHTML(truncaddy(currentNFT.addy, 10));
 
     clone.addEventListener('click', function () { redirectToBorrowable(currentNFT.addy, currentNFT.tokenId) }, false);
 
     borrowableGrid.insertBefore(clone, borrowableGrid.childNodes[length - (stIndex - inIndex)]);
+
   }
   loaderWrapper.remove();
 }
@@ -195,12 +198,15 @@ function removeGridsUntilConnected(message, which, linkref) {
       connectButton.innerHTML = "Connect to Metamask";
       connectButton.classList.add("providerErrorConnectButton");
       metaNotifierWrapper.appendChild(connectButton);
+    } else if (which == "network") {
+      const connectButton = document.createElement("button");
+      connectButton.onclick = function() { switchToRinkeby() };
+      connectButton.innerHTML = "Switch to Rinkeby";
+      connectButton.classList.add("providerErrorConnectButton");
+      metaNotifierWrapper.appendChild(connectButton);
     }
   }
-
-
   innerInteractable.appendChild(metaNotifierWrapper);
-
 }
 
 function prevPage() {
@@ -245,9 +251,23 @@ async function checkConnection() {
     layout(gperPage, gpage);
     return;
   }
-  removeGridsUntilConnected("You must be connected to the Rinkeby network to use Balloon");
+  removeGridsUntilConnected("You must be connected to the Rinkeby network to use Balloon", "network");
 }
 
+function switchToRinkeby() {
+  return new Promise((resolve, reject) => {
+    ethereum.request({
+      method: "wallet_switchEthereumChain",
+      params: [{
+          chainId: "0x4"
+      }]
+    }).then(() => {
+      resolve();
+    }).catch((err) => {
+      reject(err);
+    })
+  });
+}
 
 
 

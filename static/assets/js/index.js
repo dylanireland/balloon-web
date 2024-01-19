@@ -1,6 +1,8 @@
-document.getElementById("learnmore").onclick = function() {
+document.getElementById("learnmore").onclick = function() { //Set up smooth scrolling
   doScrolling("#about", 500);
 }
+
+
 
 //Daniel Sawka https://stackoverflow.com/users/2643692/daniel-sawka
 function getElementY(query) {
@@ -35,7 +37,7 @@ if ((window.innerWidth / window.innerHeight) > 0.625) { //Is not on mobile, > 10
   document.getElementById("body").onscroll = function paraScroll() {
       var scrolltotop = document.scrollingElement.scrollTop;
       var target = document.getElementById("background");
-      var xvalue = "center";
+      var xvalue = "left top";
       var factor = 0.5;
       var yvalue = scrolltotop * factor;
       target.style.backgroundPosition = xvalue + " " + yvalue + "px";
@@ -54,5 +56,22 @@ if ((window.innerWidth / window.innerHeight) > 0.625) { //Is not on mobile, > 10
   easyLeft.remove();
 }
 
-document.getElementById("linkEtherscanLink").onclick = function() { window.open("https://rinkeby.etherscan.io/address/" + contractAddress, '_blank'); };
-document.getElementById("linkTwitterLink").onclick = function() { window.open("https://twitter.com/BalloonProtocol", '_blank'); };
+document.getElementById("linkEtherscanLink").onclick = function() {
+  window.open("https://rinkeby.etherscan.io/address/" + contractAddress, '_blank');
+}
+
+document.getElementById("linkTwitterLink").onclick = function() {
+  window.open("https://twitter.com/BalloonProtocol", '_blank');
+}
+
+document.querySelector("#dappLauncher").onclick = function() {
+  window.location.href = "https://balloonprotocol.com/dapp";
+}
+
+document.querySelector(".socials img:first-child").onclick = function() {
+  window.open("https://twitter.com/BalloonProtocol", '_blank');
+}
+
+document.querySelector(".socials img:last-child").onclick = function() {
+  window.open("https://discord.gg/4Ua2kN6dKA", '_blank');
+}

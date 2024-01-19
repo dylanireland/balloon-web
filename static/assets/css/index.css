@@ -4,28 +4,29 @@
   min-height: 80vh;
   background-color: white;
   position: relative;
+  width: 100%;
 }
 
 #showoff {
   position: relative;
+  width: 100%;
 }
 
 #showoff #background {
-  background-image: url("../photos/background.svg");
-  background-position: top;
+  background-image: url("../photos/background_new.svg");
+  background-position: left top;
   background-repeat: no-repeat;
-  background-size: cover;
-  height: calc(80vh - 95px);
+  background-size: 100% auto;
+  height: 90vh;
 }
 
 #showoff .content {
   position: absolute;
   top: 0;
-  bottom: 0;
   right: 0;
   left: 0;
+  bottom: 10vh;
   text-align: center;
-  padding-top: 5%;
 }
 
 #showoff .content h1 {
@@ -38,26 +39,50 @@
   color: black;
 }
 
-#leanmoreContainer {
+#infoContainer {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  position: absolute;
+  top: 20%;
+  left: 60%;
+  border-radius: 15px;
+  box-shadow: 0 3px 47px rgba(0,0,0,0.15);
+  background-color: white;
+  padding: 20px;
+  min-width: 15%;
 }
 
-#learnmore {
-  font-family: 'M PLUS Rounded 1c', sans-serif;
+#infoContainer .showoffButton {
   font-weight: 500;
-  font-size: 2em;
+  font-size: 1.5em;
   margin: auto;
   text-align: center;
   color: white;
-  position: absolute;
-  bottom: 0;
   background-color: #db0a5b;
   border: none;
   border-radius: 10px;
-  padding: 15px;
-  margin-bottom: 5%;
+  padding: 5%;
   cursor: pointer;
+  width: 100%;
+  margin-bottom: 2%;
+}
+
+#infoContainer .socials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+#infoContainer .socials img {
+  width: 40%;
+  padding: 5%;
+  cursor: pointer;
+}
+
+#learnmore {
+
 }
 
 /* WHAT CAN YOU DO? */
@@ -158,10 +183,6 @@
   padding-bottom: 20px;
 }
 
-#easyLending p {
-  font-size: 1.2em;
-}
-
 #easyLending > div > div {
   width: 34.5%;
 }
@@ -190,6 +211,11 @@
 
 #easyBorrowing > div > div {
   width: 30%;
+}
+
+#easyBorrowing .easyLeft {
+  min-width: 30%;
+  width: auto;
 }
 
 #easyBorrowing .nftElement {
@@ -270,6 +296,10 @@
   padding-bottom: 20px;
 }
 
+#faq .answer:last-child {
+  border-bottom: none;
+}
+
 #faq .right {
   width: 90%;
 }
@@ -313,14 +343,18 @@
 
 @media (max-aspect-ratio: 10/16) {
 
+  #home {
+    min-height: initial;
+  }
+
   /* SHOWOFF */
 
   #showoff #background {
-    background-image: url("../photos/bg-mobile.svg");
+    background-image: url("../photos/background-mobile.svg");
     background-position: top;
     background-repeat: no-repeat;
-    background-size: cover;
     width: 100%;
+    height: 75vh;
   }
 
   #showoff .content h1 {
@@ -336,6 +370,12 @@
     bottom: 0;
     padding: 20px;
     margin-bottom: 5%;
+  }
+
+  #infoContainer {
+    top: 30%;
+    left: 50%;
+    min-width: 30%;
   }
 
   /* WHAT CAN YOU DO? */
@@ -359,6 +399,7 @@
 
   .col-4 .inner {
     display: flex;
+    align-items: center;
   }
 
   #about .aboutTextHolder {
@@ -367,11 +408,11 @@
 
   #about .aboutTextHolder h2 {
     text-align: left;
-    font-size: 32px;
+    font-size: 2em;
   }
 
   #about .aboutTextHolder p {
-    font-size: 18px;
+    font-size: 2em;
   }
 
   .col-4:not(:last-child) {
@@ -392,7 +433,7 @@
   /* TOPICS */
 
   .easyTopic {
-    max-width: 72%;
+    max-width: 80%;
   }
 
   .easyTopic > div {
@@ -400,16 +441,16 @@
     margin-bottom: 5%;
   }
 
-  .easyTopic > div p {
-    font-size: 1.5em;
+  .easyTopic h1 {
+    font-size: 2em;
+  }
+
+  .easyTopic p {
+    font-size: 2em;
   }
 
   #easyLending > div > div {
     width: 90%;
-  }
-
-  #easyLending p {
-    font-size: 1.3em;
   }
 
   #floatingETHContainer {
@@ -458,13 +499,30 @@
   /* ROADMAP */
 
   #roadmap {
-    width: 75%;
+    width: 85%;
+    height: 1000px;
+  }
+
+  #roadmap h1 {
+    font-size: 2.5em;
+  }
+
+  #roadmap h4{
+    font-size: 2em;
+  }
+
+  #roadmap p {
+    font-size: 1.8em;
   }
 
   /* FAQ */
 
   #faq {
     max-width: 80%;
+  }
+
+  #faq > h1 {
+      font-size: 2.5em;
   }
 
   /* FOOTER */

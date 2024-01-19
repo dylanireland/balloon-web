@@ -61,8 +61,8 @@
   z-index: 3;
 }
 
-.collapsible {
-  background-color: #eee;
+#sidebar .collapsible {
+  background-color: #dedede;
   color: #354551;
   cursor: pointer;
   border: none;
@@ -80,11 +80,27 @@
   background-color: #ccc;
 }
 
-.dropdownContent {
+#sidebar .dropdownContent {
   overflow: hidden;
   max-height: 0;
   background-color: #f1f1f1;
   transition: max-height 0.2s ease-out;
+}
+
+#sidebar .collection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 30px;
+  cursor: pointer;
+}
+
+#sidebar .collection img {
+  height: 1em;
+  width: 1em;
+  border-radius: 50%;
+  margin-right: 6px;
 }
 
 /* NFT GRID */

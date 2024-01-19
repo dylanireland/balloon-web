@@ -21,6 +21,12 @@ repayButton.addEventListener('click', () => { loadReimbursement(); });
 livenButton.addEventListener('click', () => { updateLivelihood(); });
 liquidateButton.addEventListener('click', () => { liquidate(); });
 
+if (window.ethereum != null) {
+  ethereum.on('accountsChanged', function (accounts) {
+    location.reload();
+  })
+}
+
 let accounts = [];
 
 var gnft = null;
@@ -34,19 +40,27 @@ async function getNFTAtIndex() {
 }
 
 async function loadInfo() {
-  gnft = await findNFTWithTypes(nftAddress, tokenId);
+  try {
+    gnft = await findNFTWithTypes(nftAddress, tokenId);
+  } catch(error) {
+    window.location.href = "/dapp";
+  }
   var uri = await getNFTURI(gnft);
   var metadata = await getNFTMetadata(uri);
+  const valuation = new BigNumber(gnft.valuation);
+  const collateralMultiplier = new BigNumber(gnft.collateralMultiplier);
+  const desiredInterest = new BigNumber(gnft.desiredInterest);
+
   document.getElementById("mainImage").src = metadata.image;
   var h3s = document.getElementsByClassName("label");
+  var sharrows = document.getElementById("rightContent").getElementsByClassName("sharrow");
   h3s[0].innerHTML = h3s[0].innerHTML + escapeHTML(truncaddy(gnft.addy, 12));
-  h3s[0].onclick = function() { location.href = "https://rinkeby.etherscan.io/address/" + escapeHTML(gnft.addy); };
+  sharrows[0].onclick = function() { window.open("https://testnets.opensea.io/assets/rinkeby/" + escapeHTML(gnft.addy) + "/" + gnft.tokenId.toString(), '_blank'); };
   h3s[1].innerHTML = h3s[1].innerHTML + escapeHTML(truncaddy(gnft.lender, 12));
-  h3s[1].onclick = function() { location.href = "https://rinkeby.etherscan.io/address/" + escapeHTML(gnft.lender); };
-  //DO CSS TO MAKE THESE TWO HAVE POINTERS
-  h3s[2].innerHTML = h3s[2].innerHTML + escapeHTML((gnft.valuation * 10**-18).toString());
-  h3s[3].innerHTML = h3s[3].innerHTML + escapeHTML((gnft.collateralMultiplier * gnft.valuation * 10**-18).toString());
-  h3s[4].innerHTML = h3s[4].innerHTML + escapeHTML((gnft.desiredInterest * 10**-2).toString());
+  sharrows[1].onclick = function() { window.open("https://rinkeby.etherscan.io/address/" + escapeHTML(gnft.lender), '_blank'); };
+  h3s[2].innerHTML = h3s[2].innerHTML + escapeHTML((valuation.div(1000000000000000000)).toString());
+  h3s[3].innerHTML = h3s[3].innerHTML + escapeHTML(collateralMultiplier.div(100).times(valuation.div(1000000000000000000)).toString());
+  h3s[4].innerHTML = escapeHTML((desiredInterest.div(100)).toString()) + h3s[4].innerHTML;
   h3s[5].innerHTML = h3s[5].innerHTML + escapeHTML(secondsToDhms(gnft.loanDuration));
 }
 
@@ -124,23 +138,70 @@ function secondsToDhms(seconds) {
 
 
 async function sendBorrow() {
+  const loader = document.getElementById("borrow_loader");
+  loader.style.visibility = "visible";
+  borrowButton.innerHTML = "";
   if (gnft == null) {
     var gnft = await findNFTWithTypes(nftAddress, tokenId);
   }
+  const collateralMultiplier = new BigNumber(gnft.collateralMultiplier);
+  const valuation = new BigNumber(gnft.valuation);
   let overrides = {
-    value: (gnft.collateralMultiplier * gnft.valuation).toString()
+    value: (collateralMultiplier.times(valuation).div(100)).toString()
   };
-  let tx = await balloonContract.connect(provider.getSigner()).borrow(gnft.lender, gnft.addy, gnft.tokenId, overrides);
+  var tx;
+  try {
+    tx = await balloonContract.connect(provider.getSigner()).borrow(gnft.lender, gnft.addy, gnft.tokenId, overrides);
+  } catch(error) {
+    loader.style.visibility = "hidden";
+    borrowButton.innerHTML = "Borrow";
+    alert(error.toString());
+  }
+
+  tx.wait().then(() => {
+    location.reload();
+  }).catch((error) => {
+    loader.style.visibility = "hidden";
+    borrowButton.innerHTML = "Borrow";
+    alert(error.toString());
+  });
 }
 
 async function sendWithdraw() {
+  const loader = document.getElementById("withdraw_loader");
+  loader.style.visibility = "visible";
+  withdrawButton.innerHTML = "";
   if (gnft == null) {
     var gnft = await findNFTWithTypes(nftAddress, tokenId);
   }
-  let tx = await balloonContract.connect(provider.getSigner()).withdrawNFT(gnft.addy, gnft.tokenId);
+  try {
+    var tx;
+    try {
+      tx = await balloonContract.connect(provider.getSigner()).withdrawNFT(gnft.addy, gnft.tokenId);
+    } catch (error) {
+      loader.style.visibility = "hidden";
+      withdrawButton.innerHTML = "Withdraw";
+      alert(error.toString());
+    }
+    tx.wait().then(() => {
+      location.reload();
+    }).catch((error) => {
+      loader.style.visibility = "hidden";
+      withdrawButton.innerHTML = "Withdraw";
+      alert(error.toString());
+    });
+  } catch (error) {
+    loader.style.visibility = "hidden";
+    withdrawButton.innerHTML = "Withdraw";
+    alert(error.toString());
+  }
+
 }
 
 async function sendApproval() {
+  const loader = document.getElementById("approve_loader");
+  loader.style.visibility = "visible";
+  approveButton.innerHTML = "";
   if (gnft == null) {
     var gnft = await findNFTWithTypes(nftAddress, tokenId);
   }
@@ -148,6 +209,8 @@ async function sendApproval() {
     approveButton.style.display = "none";
     tryToLoadButton(gnft);
   }).catch((e) => {
+    loader.style.visibility = "hidden";
+    approveButton.innerHTML = "Approve";
     alert(e);
   });
 }
@@ -159,18 +222,52 @@ async function loadReimbursement() {
 }
 
 async function updateLivelihood() {
+  const loader = document.getElementById("liven_loader");
+  const livenValue = livenButton.innerHTML;
+  loader.style.visibility = "visible";
+  livenButton.innerHTML = "";
   if (gnft == null) {
     var gnft = await findNFTWithTypes(nftAddress, tokenId);
   }
-  let tx = await balloonContract.connect(provider.getSigner()).flipBorrowAbility(gnft.addy, gnft.tokenId);
+  var tx;
+  try {
+    tx = await balloonContract.connect(provider.getSigner()).flipBorrowAbility(gnft.addy, gnft.tokenId);
+  } catch(error) {
+    loader.style.visibility = "hidden";
+    livenButton.innerHTML = livenValue;
+    alert(error);
+  }
+  tx.wait().then(() => {
+    location.reload();
+  }).catch((error) => {
+    loader.style.visibility = "hidden";
+    livenButton.innerHTML = livenValue;
+  });
 }
 
 
 async function liquidate() {
+  const loader = document.getElementById("liquidate_loader");
+  loader.style.visibility = "visible";
+  liquidateButton.innerHTML = "";
   if (gnft == null) {
     var gnft = await findNFTWithTypes(nftAddress, tokenId);
   }
-  let tx = await balloonContract.connect(provider.getSigner()).liquidate(gnft.addy, gnft.tokenId);
+  var tx;
+  try {
+    tx = await balloonContract.connect(provider.getSigner()).liquidate(gnft.addy, gnft.tokenId);
+  } catch (error) {
+    loader.style.visibility = "hidden";
+    liquidateButton.innerHTML = "Liquidate";
+    alert(error);
+  }
+
+  tx.wait().then(() => {
+    location.reload();
+  }).catch((error) => {
+    loader.style.visibility = "hidden";
+    liquidateButton.innerHTML = "Liquidate";
+  });
 }
 
 loadInfo();
@@ -241,27 +338,48 @@ async function formDidChange() {
 }
 
 async function sendRepay() {
+  let reimburseSubmit = document.getElementById("reimburseSubmit");
+  const loader = document.getElementById("reimburse_loader");
+  const reimburseSubmitValue = reimburseSubmit.value;
+  loader.style.visibility = "visible";
+  reimburseSubmit.value = "";
   if (gnft == null) {
     var gnft = await findNFTWithTypes(nftAddress, tokenId);
   }
   const reimbursementTokenId = document.getElementById("reimburse_tokenId").value;
   const isReturningOriginal = document.getElementById("reimburse_original").checked;
-  let reimburseSubmit = document.getElementById("reimburseSubmit");
 
-  if (reimburseSubmit.value == "Approve") {
+
+  if (reimburseSubmitValue == "Approve") {
     try {
-      //Animate loader
       await setApprovalForAll(nftAddress);
+      loader.style.visibility = "hidden";
       reimburseSubmit.value = "Reimburse NFT";
     } catch(error) {
+      loader.style.visibility = "hidden";
+      reimburseSubmit.value = "Approve";
       alert(error);
     }
-  } else if (reimburseSubmit.value == "Reimburse NFT" && reimbursementTokenId != "") {
+  } else if (reimburseSubmitValue == "Reimburse NFT" && reimbursementTokenId != "") {
     try {
-      //Animate loader
       console.log("Token for which to be repaid", reimbursementTokenId, " For ", gnft.tokenId);
-      let tx = await balloonContract.connect(provider.getSigner()).reimburseNFT(nftAddress, isReturningOriginal ? gnft.tokenId: reimbursementTokenId, gnft.tokenId);
+      var tx;
+      try {
+        tx = await balloonContract.connect(provider.getSigner()).reimburseNFT(nftAddress, isReturningOriginal ? gnft.tokenId: reimbursementTokenId, gnft.tokenId);
+      } catch (error) {
+        console.log(error);
+        loader.style.visibility = "hidden";
+        reimburseSubmit.value = "Reimburse NFT";
+      }
+      tx.wait().then(() => {
+        location.reload();
+      }).catch((error) => {
+        loader.style.visibility = "hidden";
+        reimburseSubmit.value = "Reimburse NFT";
+      });
     } catch(error) {
+      loader.style.visibility = "hidden";
+      reimburseSubmit.value = "Reimburse NFT";
       alert(error);
     }
   }

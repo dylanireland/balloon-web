@@ -6,10 +6,22 @@ if (window.location.search.substr(1) == "func=deposit") {
   showDepositMenu();
 }
 
-var redirectToBorrowable = function(address, tokenId) {
-    const uri = "/nft/" + address + "/" + tokenId;
+var redirectToBorrowable = function(evt) {
+    const uri = "/nft/" + evt.currentTarget.address + "/" + evt.currentTarget.tokenId;
     window.location.href = uri;
 };
+
+if (window.ethereum != null) {
+  ethereum.on('chainChanged', (chainId) => {
+    if (chainId == 4) {
+      window.location.reload();
+    }
+  });
+
+  ethereum.on('accountsChanged', function (accounts) {
+    location.reload();
+  })
+}
 
 var depositPage = 0;
 var depositGrids = [];
@@ -65,7 +77,9 @@ async function makeDeposits() {
 
     clone.getElementsByClassName("nftImage")[0].src = metadata.image;
 
-    clone.addEventListener('click', function () { redirectToBorrowable(currentNFT.addy, currentNFT.tokenId) }, false);
+    clone.addEventListener('click', redirectToBorrowable, true);
+    clone.address = currentNFT.addy;
+    clone.tokenId = currentNFT.tokenId;
 
     var depositsDiv = document.getElementsByClassName("deposits")[0];
     if (i == 0) {
@@ -76,11 +90,11 @@ async function makeDeposits() {
       depositGrids.push(gridClone);
       depositsDiv.insertBefore(gridClone, depositsDiv.getElementsByClassName("btn_next")[0]);
     }
-    if (length <= 8) {
-      depositsDiv.getElementsByClassName("btn_prev")[0].remove();
-      depositsDiv.getElementsByClassName("btn_next")[0].remove();
-    }
     gridClone.append(clone);
+  }
+  if (length <= 8) {
+    document.getElementsByClassName("deposits")[0].getElementsByClassName("btn_prev")[0].remove();
+    document.getElementsByClassName("deposits")[0].getElementsByClassName("btn_next")[0].remove();
   }
 }
 
@@ -129,7 +143,10 @@ async function makeBorrows() {
 
     clone.getElementsByClassName("nftImage")[0].src = metadata.image;
 
-    clone.addEventListener('click', function () { redirectToBorrowable(currentNFT.addy, currentNFT.tokenId) }, false);
+    clone.addEventListener('click', redirectToBorrowable, true);
+    clone.address = currentNFT.addy;
+    clone.tokenId = currentNFT.tokenId;
+
     var borrowsDiv = document.getElementsByClassName("borrows")[0];
     if (i == 0) {
       gridClone.getElementsByClassName("nftObject")[0].remove();
@@ -139,11 +156,11 @@ async function makeBorrows() {
       borrowGrids.push(gridClone);
       borrowsDiv.insertBefore(gridClone, borrowsDiv.getElementsByClassName("btn_next")[0]);
     }
-    if (length <= 4) {
-      borrowsDiv.getElementsByClassName("btn_prev")[0].remove();
-      borrowsDiv.getElementsByClassName("btn_next")[0].remove();
-    }
     gridClone.append(clone);
+  }
+  if (length <= 4) {
+    document.getElementsByClassName("borrows")[0].getElementsByClassName("btn_prev")[0].remove();
+    document.getElementsByClassName("borrows")[0].getElementsByClassName("btn_next")[0].remove();
   }
 }
 
@@ -193,7 +210,9 @@ async function makeLoans() {
 
     clone.getElementsByClassName("nftImage")[0].src = metadata.image;
 
-    clone.addEventListener('click', function () { redirectToBorrowable(currentNFT.addy, currentNFT.tokenId) }, false);
+    clone.addEventListener('click', redirectToBorrowable, true);
+    clone.address = currentNFT.addy;
+    clone.tokenId = currentNFT.tokenId;
 
     var loansDiv = document.getElementsByClassName("loans")[0];
     if (i == 0) {
@@ -204,11 +223,11 @@ async function makeLoans() {
       loanGrids.push(gridClone);
       loansDiv.insertBefore(gridClone, loansDiv.getElementsByClassName("btn_next")[0]);
     }
-    if (length <= 4) {
-      loansDiv.getElementsByClassName("btn_prev")[0].remove();
-      loansDiv.getElementsByClassName("btn_next")[0].remove();
-    }
     gridClone.append(clone);
+  }
+  if (length <= 4) {
+    document.getElementsByClassName("loans")[0].getElementsByClassName("btn_prev")[0].remove();
+    document.getElementsByClassName("loans")[0].getElementsByClassName("btn_next")[0].remove();
   }
 }
 
@@ -411,7 +430,7 @@ async function checkApproval(address) {
     return;
   }
 
-  isApprovedForAll(address, accounts[0], contractAddress).then((isApproved) => {
+  isApprovedForAll(address, provider.getSigner().getAddress(), contractAddress).then((isApproved) => {
     if (isApproved) {
       depositSubmit.value = "Deposit";
     } else if (!isApproved) {
@@ -420,18 +439,19 @@ async function checkApproval(address) {
   }).catch((e) => {
     depositSubmit.value = "Error Checking Approval";
   })
-
 }
 
 async function deposit() {
   var addressValue = document.getElementById("deposit_nft_address").value;
   var tokenIdValue = document.getElementById("deposit_tokenId").value;
-  var valuationValue = document.getElementById("deposit_valuation").value;
-  var interestValue = document.getElementById("deposit_interest").value;
+  var valuationValue = new BigNumber(document.getElementById("deposit_valuation").value);
+  var interestValue = new BigNumber(document.getElementById("deposit_interest").value);
   var durationValue = document.getElementById("deposit_duration").value;
-  var multiplierValue = document.getElementById("deposit_collateral_multiplier").value;
-  var startLiveValue = document.getElementById("deposit_start_live").value;
-  var shouldRelistValue = document.getElementById("deposit_should_relist").value;
+  var multiplierValue = new BigNumber(document.getElementById("deposit_collateral_multiplier").value);
+  var startLiveValue = document.getElementById("deposit_start_live").checked;
+  var shouldRelistValue = document.getElementById("deposit_should_relist").checked;
+
+  const loader = document.getElementById("deposit_loader");
 
   if (accounts.length == 0) {
     alert("You are not connected to Ethereum");
@@ -440,24 +460,59 @@ async function deposit() {
 
   if (depositSubmit.value == "Approve") {
     try {
-      //Animate loader
+      depositSubmit.value = "";
+      loader.style.visibility = "visible";
       await setApprovalForAll(addressValue);
+      loader.style.visibility = "hidden";
       depositSubmit.value = "Deposit";
     } catch(error) {
+      loader.style.visibility = "hidden";
+      depositSubmit.value = "Deposit";
       alert(error);
     }
   } else if (depositSubmit.value == "Deposit" && addressValue != "" && tokenIdValue != "" && valuationValue != "" && interestValue != "" && durationValue != "" && multiplierValue != "") {
     try {
-      //Animate loader
-      let tx = await balloonContract.connect(provider.getSigner()).depositNFT(addressValue, tokenIdValue, valuationValue, interestValue, durationValue, multiplierValue, startLiveValue, shouldRelistValue);
+      depositSubmit.value = "";
+      loader.style.visibility = "visible";
+      const ten = new BigNumber(10);
+      let tx = await balloonContract.connect(provider.getSigner()).depositNFT(addressValue, tokenIdValue, valuationValue.times(ten.pow(18)).toString(), interestValue.times(100).toString(), durationValue, multiplierValue.times(100).toString(), startLiveValue, shouldRelistValue);
+      console.log(valuationValue.times(ten.pow(18)).toString());
+      tx.wait().then(() => {
+        location.href = "/profile";
+      }).catch((error) => {
+        depositSubmit.value = "Deposit";
+        loader.style.visibility = "hidden";
+        alert(error);
+      });
     } catch(error) {
+      depositSubmit.value = "Deposit";
+      loader.style.visibility = "hidden";
       alert(error);
     }
+
   }
 }
 
-getAccount();
+async function checkNetToLayout() {
+  const { chainId } = await provider.getNetwork();
+  if (chainId == 4) {
+    getAccount();
 
-makeDeposits();
-makeBorrows();
-makeLoans();
+    makeDeposits();
+    makeBorrows();
+    makeLoans();
+    return;
+  }
+  document.getElementById("showoff").style.display = "none";
+  document.getElementById("statii").style.display = "none";
+  document.getElementById("depositContainer").style.display = "none";
+  const p = document.createElement("p");
+  p.innerHTML = "Please switch to the Rinkeby testnet to use Balloon."
+  p.style.textAlign = "center";
+  p.style.marginTop = "20px";
+  document.getElementById("home").appendChild(p);
+}
+
+
+
+checkNetToLayout();
