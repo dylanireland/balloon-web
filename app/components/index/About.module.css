@@ -1,0 +1,16 @@
+#about {
+    background-color: white;
+    width: 100%;
+}
+
+#about h1 {
+    text-align: center;
+    padding-top: 50px;
+    margin-bottom: 50px;
+    color: black;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+}

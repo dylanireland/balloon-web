@@ -1,0 +1,43 @@
+#faq {
+    max-width: 60%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+#faq>h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.faq {
+    margin-bottom: 50px;
+}
+
+#faq .qa {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#faq .answer {
+    border-bottom: 1px solid #db0a5b;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+}
+
+#faq .answer:last-child {
+    border-bottom: none;
+}
+
+#faq .right {
+    width: 90%;
+}
+
+#faq .left h1 {
+    font-size: 2.5em;
+}
+
+#faq .answer .right h3 {
+    font-weight: 400;
+}

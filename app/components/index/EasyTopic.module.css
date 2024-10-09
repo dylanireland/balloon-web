@@ -1,0 +1,146 @@
+.topic {
+    border: solid 1px rgba(0, 0, 0, 0.1);
+    border-radius: 25px;
+    box-shadow: 0 3px 47px rgba(0, 0, 0, 0.15);
+    max-width: 69%; /* nice */
+    margin: auto;
+    margin-bottom: 50px;
+    color: black
+}
+
+.topic>div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 60px;
+}
+
+.topic>h1 {
+    text-align: left;
+    padding-top: 30px;
+    color: black;
+    font-weight: lighter;
+    font-size: 1.5em;
+    padding-left: 30px;
+}
+
+#lending {
+    margin-top: 50px;
+}
+
+#lending .left h1:nth-child(2) {
+    padding-bottom: 20px;
+}
+
+#lending>div>div {
+    width: 34.5%;
+}
+
+#floatingETHContainer {
+    width: 75%;
+    margin: auto;
+}
+
+#floatingETHContainer>img {
+    width: 100%;
+}
+
+.nftElement {
+    width: 240px;
+    height: 300px;
+    margin: auto;
+    cursor: default;
+}
+
+#lending .nftElement {
+    margin-right: 0;
+}
+
+/* BORROWING */
+
+#borrowing>div>div {
+    width: 30%;
+}
+
+#borrowing .left {
+    min-width: 30%;
+    width: auto;
+}
+
+#borrowing .left img {
+    height: 80%;
+}
+
+#borrowing .right h1 {
+    padding-bottom: 20px;
+}
+
+#borrowing .nftElement {
+    margin-left: 0;
+}
+
+@media (max-width: 10/16) {
+    .topic {
+        max-width: 80%;
+    }
+    
+    .topic>div {
+        flex-direction: column;
+        margin-bottom: 5%;
+    }
+    
+    .topic h1 {
+        font-size: 2em;
+    }
+    
+    .topic p {
+        font-size: 2em;
+    }
+    
+    #lending>div>div {
+        width: 90%;
+    }
+    
+    #floatingETHContainer {
+        width: 60%;
+    }
+    
+    #lending .left h1:nth-child(2) {
+        padding-bottom: 10px;
+    }
+    
+    #borrowing>div>div {
+        width: 90%;
+    }
+    
+    #borrowing .nftElement {
+        margin: auto;
+        width: 40vw;
+        height: 50vw;
+        margin-bottom: 20px;
+    }
+    
+    #borrowing .right h1 {
+        padding-bottom: 10px;
+    }
+    
+    .nftPriceContainer {}
+    
+    .nftPriceETHLogo {
+        height: 65%;
+    }
+    
+    .nftPriceContainer>.priceLabel,
+    .nftPriceContainer>h4 {
+        font-size: 1.5em;
+    }
+    
+    .nftPriceContainer>.collateralLabel {
+        font-size: 1em;
+    }
+    
+    .nftCollectionName {
+        font-size: 1em;
+    }
+}
