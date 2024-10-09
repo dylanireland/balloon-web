@@ -1,22 +1,30 @@
 {
-  "name": "balloon",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "balloon-web",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "dev": "nodemon ./app.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "nodemon": "^2.0.14"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
     "axios": "latest",
-    "ejs": "latest",
     "express": "latest",
     "greenlock-express": "^4.0.3",
+    "next": "14.2.14",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-tilt": "^1.0.2",
+    "styled-components": "^6.1.13",
     "web3": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.14",
+    "typescript": "^5"
   }
 }
